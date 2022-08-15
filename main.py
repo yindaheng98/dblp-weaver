@@ -78,7 +78,7 @@ async def main():
         'q/YuQiao1',  # Yu Qiao
         '38/559',  # 北大刘云淮
     ]
-    g = GG(init)
+    g = GG(init, CCF_A)
     for i in range(6):
         await g.bfs_once()
     summary = g.networkx_summary()
