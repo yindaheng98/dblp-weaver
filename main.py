@@ -2,7 +2,7 @@ from pprint import pprint
 from itertools import product
 
 from dblp_crawler import *
-from dblp_crawler.data import CCF_A, CCF_B
+from dblp_crawler.data import CCF_A, CCF_B, CCF_C
 from dblp_crawler.keyword import *
 
 keywords = Keywords()
@@ -43,6 +43,19 @@ class GG(Graph):
         publications = filter_publications_by_title_with_func(publications, keywords.match)
         publications = drop_publications_by_journals(publications, blacklist)
         return publications
+
+    def summary_person(self, person, publications):
+        ccf_a = filter_publications_by_journals(person.publications(), CCF_A)
+        ccf_b = filter_publications_by_journals(person.publications(), CCF_B)
+        ccf_c = filter_publications_by_journals(person.publications(), CCF_C)
+        ccf_n = drop_publications_by_journals(person.publications(), CCF_A + CCF_B + CCF_C)
+        return dict(
+            **super().summary_person(person, publications),
+            ccf_a=ccf_a,
+            ccf_b=ccf_b,
+            ccf_c=ccf_c,
+            ccf_n=ccf_n,
+        )
 
 
 async def main():
