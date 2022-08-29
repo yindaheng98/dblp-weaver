@@ -34,6 +34,8 @@
     <script type="text/javascript"
             src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
     <script type="text/javascript"
+            src="https://unpkg.com/echarts@5.3.3/dist/echarts.min.js"></script>
+    <script type="text/javascript"
             src="summary.js"></script>
 
     <script type="text/javascript">
@@ -69,14 +71,27 @@
                     text = e.data.publications.join('\n\n')
                 }
                 document.getElementById("publications").innerText = text
+            });
 
+            chart = echarts.init(document.getElementById("chart"));
+            network.on("click", function (properties) {
                 if (properties.nodes.length > 0) {
                     let n = nodes.get(properties.nodes)[0]
-                    ccf_a = n.data.ccf_a
-                    ccf_b = n.data.ccf_b
-                    ccf_c = n.data.ccf_c
-                    ccf_text = "CCF A: " + ccf_a.length + "\nCCF B: " + ccf_b.length + "\nCCF C: " + ccf_c.length
-                    document.getElementById("graph").innerText = ccf_text
+                    chart.setOption({
+                        series: [
+                            {
+                                type: "pie",
+                                data: [
+                                    {name: "CCF A", value: n.data.ccf_a.length},
+                                    {name: "CCF B", value: n.data.ccf_b.length},
+                                    {name: "CCF C", value: n.data.ccf_c.length},
+                                ]
+                            }
+                        ],
+                        label: {
+                            formatter: '{b}: {c}'
+                        }
+                    })
                 }
             });
         }
@@ -89,7 +104,7 @@
 </p>
 <div id="network"></div>
 <div id="data">
-    <div id="graph">图片预留位</div>
+    <div id="chart" style="height: 300px; width: 100%">图表预留位</div>
     <div id="publications"></div>
 </div>
 </body>
