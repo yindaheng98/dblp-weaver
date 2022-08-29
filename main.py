@@ -51,10 +51,10 @@ class GG(Graph):
         ccf_n = drop_publications_by_journals(person.publications(), CCF_A + CCF_B + CCF_C)
         return dict(
             **super().summary_person(person, publications),
-            ccf_a=ccf_a,
-            ccf_b=ccf_b,
-            ccf_c=ccf_c,
-            ccf_n=ccf_n,
+            ccf_a=list(ccf_a),
+            ccf_b=list(ccf_b),
+            ccf_c=list(ccf_c),
+            ccf_n=list(ccf_n),
         )
 
 
