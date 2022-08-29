@@ -83,7 +83,6 @@
                     for (year = 2010; year <= 2022; year++) {
                         ccf_year_count[year] = {A: 0, B: 0, C: 0, N: 0}
                     }
-                    console.log(n.data)
                     for (key in n.data.detail) {
                         pub = n.data.detail[key]
                         ccf_count[pub.CCF]++
@@ -102,7 +101,7 @@
                             }
                         ],
                         label: {
-                            formatter: '{b}: {c}'
+                            formatter: '{b}: {c}篇'
                         }
                     })
 
@@ -117,9 +116,16 @@
                     }
                     line.setOption({
                         xAxis: {
-                            data: year
+                            name: '年份',
+                            type: 'category',
+                            axisTick: {
+                                alignWithLabel: true
+                            },
+                            data: years
                         },
-                        yAxis: {},
+                        yAxis: {
+                            name: '论文数'
+                        },
                         series: [
                             {
                                 data: year_ccf.A,
