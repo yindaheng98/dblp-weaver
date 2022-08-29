@@ -73,24 +73,70 @@
                 document.getElementById("publications").innerText = text
             });
 
-            chart = echarts.init(document.getElementById("chart"));
+            pie = echarts.init(document.getElementById("pie"));
+            line = echarts.init(document.getElementById("line"));
             network.on("click", function (properties) {
                 if (properties.nodes.length > 0) {
                     let n = nodes.get(properties.nodes)[0]
-                    chart.setOption({
+                    ccf_count = {A: 0, B: 0, C: 0, N: 0}
+                    ccf_year_count = {}
+                    for (year = 2010; year <= 2022; year++) {
+                        ccf_year_count[year] = {A: 0, B: 0, C: 0, N: 0}
+                    }
+                    console.log(n.data)
+                    for (key in n.data.detail) {
+                        pub = n.data.detail[key]
+                        ccf_count[pub.CCF]++
+                        if (ccf_year_count[pub.year])
+                            ccf_year_count[pub.year][pub.CCF]++
+                    }
+                    pie.setOption({
                         series: [
                             {
                                 type: "pie",
                                 data: [
-                                    {name: "CCF A", value: n.data.ccf_a.length},
-                                    {name: "CCF B", value: n.data.ccf_b.length},
-                                    {name: "CCF C", value: n.data.ccf_c.length},
+                                    {name: "CCF A", value: ccf_count.A},
+                                    {name: "CCF B", value: ccf_count.B},
+                                    {name: "CCF C", value: ccf_count.C},
                                 ]
                             }
                         ],
                         label: {
                             formatter: '{b}: {c}'
                         }
+                    })
+
+                    years = []
+                    year_ccf = {A: [], B: [], C: [], N: []}
+                    for (year = 2010; year <= 2022; year++) {
+                        years.push(year)
+                        year_ccf.A.push(ccf_year_count[year].A)
+                        year_ccf.B.push(ccf_year_count[year].B)
+                        year_ccf.C.push(ccf_year_count[year].C)
+                        year_ccf.N.push(ccf_year_count[year].N)
+                    }
+                    line.setOption({
+                        xAxis: {
+                            data: year
+                        },
+                        yAxis: {},
+                        series: [
+                            {
+                                data: year_ccf.A,
+                                type: 'line',
+                                stack: 'x'
+                            },
+                            {
+                                data: year_ccf.B,
+                                type: 'line',
+                                stack: 'x'
+                            },
+                            {
+                                data: year_ccf.C,
+                                type: 'line',
+                                stack: 'x'
+                            }
+                        ]
                     })
                 }
             });
@@ -104,7 +150,10 @@
 </p>
 <div id="network"></div>
 <div id="data">
-    <div id="chart" style="height: 300px; width: 100%">图表预留位</div>
+    <div id="chart" style="height: 600px; width: 100%">
+        <div id="pie" style="height: 300px; width: 100%"></div>
+        <div id="line" style="height: 300px; width: 100%"></div>
+    </div>
     <div id="publications"></div>
 </div>
 </body>
