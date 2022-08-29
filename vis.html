@@ -69,6 +69,15 @@
                     text = e.data.publications.join('\n\n')
                 }
                 document.getElementById("publications").innerText = text
+
+                if (properties.nodes.length > 0) {
+                    let n = nodes.get(properties.nodes)[0]
+                    ccf_a = n.data.ccf_a
+                    ccf_b = n.data.ccf_b
+                    ccf_c = n.data.ccf_c
+                    ccf_text = "CCF A: " + ccf_a.length + "\nCCF B: " + ccf_b.length + "\nCCF C: " + ccf_c.length
+                    document.getElementById("graph").innerText = ccf_text
+                }
             });
         }
     </script>
