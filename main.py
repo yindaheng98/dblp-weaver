@@ -45,16 +45,18 @@ class GG(Graph):
         return publications
 
     def summary_person(self, person, publications):
-        ccf_a = filter_publications_by_journals(person.publications(), CCF_A)
-        ccf_b = filter_publications_by_journals(person.publications(), CCF_B)
-        ccf_c = filter_publications_by_journals(person.publications(), CCF_C)
-        ccf_n = drop_publications_by_journals(person.publications(), CCF_A + CCF_B + CCF_C)
+        detail = {}
+        for publication in person.publications():
+            detail[publication.key()] = dict(year=publication.year(), CCF='N')
+        for publication in filter_publications_by_journals(person.publications(), CCF_A):
+            detail[publication.key()] = dict(year=publication.year(), CCF='A')
+        for publication in filter_publications_by_journals(person.publications(), CCF_B):
+            detail[publication.key()] = dict(year=publication.year(), CCF='B')
+        for publication in filter_publications_by_journals(person.publications(), CCF_C):
+            detail[publication.key()] = dict(year=publication.year(), CCF='C')
         return dict(
             **super().summary_person(person, publications),
-            ccf_a=list(ccf_a),
-            ccf_b=list(ccf_b),
-            ccf_c=list(ccf_c),
-            ccf_n=list(ccf_n),
+            detail=detail,
         )
 
 
@@ -91,8 +93,8 @@ async def main():
         'q/YuQiao1',  # Yu Qiao
         '38/559',  # 北大刘云淮
     ]
-    g = GG(init, CCF_A)
-    for i in range(6):
+    g = GG(init, [])
+    for i in range(1):
         await g.bfs_once()
     summary = g.networkx_summary()
     summary = networkx_drop_noob_once(summary, filter_min_publications=3)
