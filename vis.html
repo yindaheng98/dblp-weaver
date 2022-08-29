@@ -9,19 +9,25 @@
             font: 10pt arial;
         }
 
-        #mynetwork {
+        #network {
             width: 49%;
             height: 600px;
-            float:left; display:inline;
+            float: left;
+            display: inline;
             border: 1px solid lightgray;
         }
 
-        #publications {
+        #data {
             width: 49%;
             height: 600px;
-            float:left; display:inline;
+            float: left;
+            display: inline;
             border: 1px solid lightgray;
-            overflow:scroll;
+            overflow: scroll;
+        }
+
+        #publications {
+            width: 100%;
         }
     </style>
 
@@ -38,7 +44,7 @@
         function draw() {
 
             // Instantiate our network object.
-            var container = document.getElementById("mynetwork");
+            var container = document.getElementById("network");
             var options = {
                 nodes: {
                     shape: "dot",
@@ -72,7 +78,10 @@
     Scale nodes and edges depending on their value. Hover over edges to get a
     popup with more information.
 </p>
-<div id="mynetwork"></div>
-<div id="publications"></div>
+<div id="network"></div>
+<div id="data">
+    <div id="graph">图片预留位</div>
+    <div id="publications"></div>
+</div>
 </body>
 </html>
