@@ -115,6 +115,11 @@
                         year_ccf.N.push(ccf_year_count[year].N)
                     }
                     line.setOption({
+                        legend: {
+                            orient: 'vertical',
+                            right: 10,
+                            top: 'center',
+                        },
                         xAxis: {
                             name: '年份',
                             type: 'category',
@@ -128,19 +133,19 @@
                         },
                         series: [
                             {
+                                name: "CCF A",
                                 data: year_ccf.A,
                                 type: 'line',
-                                stack: 'x'
                             },
                             {
+                                name: "CCF B",
                                 data: year_ccf.B,
                                 type: 'line',
-                                stack: 'x'
                             },
                             {
+                                name: "CCF C",
                                 data: year_ccf.C,
                                 type: 'line',
-                                stack: 'x'
                             }
                         ]
                     })
