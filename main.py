@@ -97,18 +97,15 @@ async def main():
     for i in range(6):
         await g.bfs_once()
     summary = g.networkx_summary()
-    summary = networkx_drop_noob_once(summary, filter_min_publications=3)
+    summary = networkx_drop_noob_once(summary, filter_min_publications=2)
     summary = networkx_drop_thin_edge(summary, filter_min_publications=2)
     pprint(dropped_journal)
     with open("summary.json", 'w', encoding='utf8') as f:
         json.dump(summary_to_json(summary), fp=f, cls=JSONEncoder, indent=2)
     with open("summary.json", 'r', encoding='utf8') as fr:
         j = json.load(fr)
-        for node in j['nodes']:
-            if node['id'] in init:
-                node['color'] = 'red'
         with open("summary.js", 'w', encoding='utf8') as fw:
-            fw.write("let data = " + json.dumps(j))
+            fw.write("let data = " + json.dumps(j, indent=2))
     dump_papers_in_summary(summary, "papers.txt")
     # draw_summary(summary)
 
