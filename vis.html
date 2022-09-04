@@ -73,13 +73,16 @@
                 document.getElementById("publications").innerText = text
             });
 
-            pie = echarts.init(document.getElementById("pie"));
+            ccfpie = echarts.init(document.getElementById("ccfpie"));
+            conpie = echarts.init(document.getElementById("conpie"));
             line = echarts.init(document.getElementById("line"));
             network.on("click", function (properties) {
                 if (properties.nodes.length > 0) {
                     let n = nodes.get(properties.nodes)[0]
                     ccf_count = {A: 0, B: 0, C: 0, N: 0}
                     ccf_year_count = {}
+                    journal_count = {}
+                    journal_ccf = {A: {}, B: {}, C: {}, N: {}}
                     for (year = 2010; year <= 2022; year++) {
                         ccf_year_count[year] = {A: 0, B: 0, C: 0, N: 0}
                     }
@@ -88,8 +91,20 @@
                         ccf_count[pub.CCF]++
                         if (ccf_year_count[pub.year])
                             ccf_year_count[pub.year][pub.CCF]++
+                        if (pub.journal === null)
+                            continue
+                        if (journal_count[pub.journal] === undefined)
+                            journal_count[pub.journal] = 0
+                        journal_count[pub.journal]++
+                        journal_ccf[pub.CCF][pub.journal] = 1
                     }
-                    pie.setOption({
+                    conpie_data = []
+                    for (key of ['A', 'B', 'C']) {
+                        for (journal in journal_ccf[key]) {
+                            conpie_data.push({name: journal, value: journal_count[journal]})
+                        }
+                    }
+                    ccfpie.setOption({
                         series: [
                             {
                                 type: "pie",
@@ -98,6 +113,17 @@
                                     {name: "CCF B", value: ccf_count.B},
                                     {name: "CCF C", value: ccf_count.C},
                                 ]
+                            }
+                        ],
+                        label: {
+                            formatter: '{b}: {c}篇'
+                        }
+                    })
+                    conpie.setOption({
+                        series: [
+                            {
+                                type: "pie",
+                                data: conpie_data
                             }
                         ],
                         label: {
@@ -162,7 +188,10 @@
 <div id="network"></div>
 <div id="data">
     <div id="chart" style="height: 600px; width: 100%">
-        <div id="pie" style="height: 300px; width: 100%"></div>
+        <div style="height: 600px; width: 100%">
+            <div id="ccfpie" style="height: 300px; width: 49%; display: inline;"></div>
+            <div id="conpie" style="height: 300px; width: 49%; display: inline;"></div>
+        </div>
         <div id="line" style="height: 300px; width: 100%"></div>
     </div>
     <div id="publications"></div>
