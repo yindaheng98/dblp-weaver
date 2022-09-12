@@ -46,14 +46,20 @@ class GG(Graph):
 
     def summary_person(self, person, publications):
         detail = {}
+
+        def get_detail(pub, ccf):
+            return dict(
+                year=pub.year(), CCF=ccf, journal=pub.journal(), title=pub.title(),
+                authors=", ".join(str(author) for author in pub.authors()))
+
         for publication in person.publications():
-            detail[publication.key()] = dict(year=publication.year(), CCF='N', journal=publication.journal())
+            detail[publication.key()] = get_detail(publication, 'N')
         for publication in filter_publications_by_journals(person.publications(), CCF_A):
-            detail[publication.key()] = dict(year=publication.year(), CCF='A', journal=publication.journal())
+            detail[publication.key()] = get_detail(publication, 'A')
         for publication in filter_publications_by_journals(person.publications(), CCF_B):
-            detail[publication.key()] = dict(year=publication.year(), CCF='B', journal=publication.journal())
+            detail[publication.key()] = get_detail(publication, 'B')
         for publication in filter_publications_by_journals(person.publications(), CCF_C):
-            detail[publication.key()] = dict(year=publication.year(), CCF='C', journal=publication.journal())
+            detail[publication.key()] = get_detail(publication, 'C')
         return dict(
             **super().summary_person(person, publications),
             detail=detail,
