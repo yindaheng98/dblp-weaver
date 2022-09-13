@@ -8,21 +8,27 @@ from dblp_crawler.keyword import *
 keywords = Keywords()
 keywords.add_rule_list(
     *list(product(
-        {"video", "live", "stream", "streaming", "feature", "vision"},
+        {"video", "live", "stream", "streaming", "feature", "vision", "resolution", "qoe", "360", "vr"},
         {"delivery", "deliver", "cached", "cache", "caching", "communication", "communicate",
-         "quality", "code", "coding", "adaptive", "adaption",
+         "quality", "code", "coding", "adaptive", "adaption", 'super', 'high', 'low',
          "denoising", "denoise", "deblur", "deblurring", "dehaze", "dehazing",
          "restoration", "restore", "enhance", "enhancement", "interpolation", "interpolate", "inpaint", "inpainting",
-         "360", "vr", 'mec', 'edge', "neural", "fog"}
+         'mec', 'edge', "neural", "fog", "mobile", "accelerate", "parallel"}
     )),
     *list(product(
-        {"video"},
-        {"live", "stream", "streaming"}
+        {"video", "live", "stream", "streaming", "feature", "vision", "resolution", "360", "vr"},
+        {"video", "live", "stream", "streaming", "feature", "vision", "resolution", "360", "vr"}
     )),
-    {"content", "aware"},
-    {"super", "resolution"},
+    *list(product(
+        {'content', 'quality'},
+        {"aware"}
+    )),
+    *list(product(
+        {'mec', 'edge', "fog"},
+        {"compute", "computing", "base", "based", "assist", "assisted", "assisting"}
+    )),
 )
-keywords.add_word_rules('hdr', 'uhd', 'in-network', 'dash')
+keywords.add_word_rules('hdr', 'uhd', 'in-network', 'dash', 'offload', 'offloading')
 
 blacklist = [
     "CVPR Workshops"
