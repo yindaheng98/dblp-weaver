@@ -1,5 +1,5 @@
 from pprint import pprint
-from itertools import product
+from itertools import product, combinations
 
 from dblp_crawler import *
 from dblp_crawler.data import CCF_A, CCF_B, CCF_C
@@ -10,14 +10,13 @@ keywords.add_rule_list(
     *list(product(
         {"video", "live", "stream", "streaming", "feature", "vision", "resolution", "qoe", "360", "vr"},
         {"delivery", "deliver", "cached", "cache", "caching", "communication", "communicate",
-         "quality", "code", "coding", "adaptive", "adaption", 'super', 'high', 'low',
+         "quality", "code", "coding", "adaptive", "adaption", 'super', 'high', 'low', 'bit', 'bitrate', 'bandwidth',
          "denoising", "denoise", "deblur", "deblurring", "dehaze", "dehazing",
          "restoration", "restore", "enhance", "enhancement", "interpolation", "interpolate", "inpaint", "inpainting",
          'mec', 'edge', "neural", "fog", "mobile", "accelerate", "parallel"}
     )),
-    *list(product(
-        {"video", "live", "stream", "streaming", "feature", "vision", "resolution", "360", "vr"},
-        {"video", "live", "stream", "streaming", "feature", "vision", "resolution", "360", "vr"}
+    *list(combinations(
+        {"video", "live", "stream", "streaming", "feature", "vision", "resolution", "360", "vr"}, 2
     )),
     *list(product(
         {'content', 'quality'},
@@ -28,7 +27,7 @@ keywords.add_rule_list(
         {"compute", "computing", "base", "based", "assist", "assisted", "assisting"}
     )),
 )
-keywords.add_word_rules('hdr', 'uhd', 'in-network', 'dash', 'offload', 'offloading')
+keywords.add_word_rules('hdr', 'uhd', "VSR", 'in-network', 'dash', 'offload', 'offloading')
 
 blacklist = [
     "CVPR Workshops"
@@ -55,7 +54,7 @@ class GG(Graph):
 
         def get_detail(pub, ccf):
             return dict(
-                year=pub.year(), CCF=ccf, journal=pub.journal(), title=pub.title(),
+                year=pub.year(), CCF=ccf, journal=pub.journal(),  # title=pub.title(), # too large
                 authors=", ".join(str(author) for author in pub.authors()))
 
         for publication in person.publications():
