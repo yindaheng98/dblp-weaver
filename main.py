@@ -10,7 +10,8 @@ keywords.add_rule_list(
     *list(product(
         {"video", "live", "stream", "streaming", "feature", "vision", "resolution", "qoe", "360", "vr"},
         {"delivery", "deliver", "cached", "cache", "caching", "communication", "communicate",
-         "quality", "code", "coding", "adaptive", "adaption", 'super', 'high', 'low', 'bit', 'bitrate', 'bandwidth',
+         "quality", "code", "coding", "encode", "encoding", "decode", "decoding",
+         "adaptive", "adaption", 'super', 'high', 'low', 'bit', 'bitrate', 'bandwidth',
          "denoising", "denoise", "deblur", "deblurring", "dehaze", "dehazing",
          "restoration", "restore", "enhance", "enhancement", "interpolation", "interpolate", "inpaint", "inpainting",
          'mec', 'edge', "neural", "fog", "mobile", "accelerate", "parallel"}
