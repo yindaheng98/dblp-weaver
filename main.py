@@ -23,10 +23,12 @@ keywords.add_rule_list(
         {'content', 'quality'},
         {"aware"}
     )),
+    """
     *list(product(
         {'mec', 'edge', "fog"},
         {"compute", "computing", "base", "based", "assist", "assisted", "assisting"}
     )),
+    """
 )
 keywords.add_word_rules('hdr', 'uhd', "VSR", 'in-network', 'dash', 'offload', 'offloading')
 
@@ -74,39 +76,23 @@ class GG(Graph):
 
 async def main():
     init = [
-        # 清华大学深圳研究院
-        '74/1552-1',  # 清深 江勇
-        '95/6543',  # 清华 王智
-
-        # 北大 数字视频编解码技术国家工程实验室
-        'g/WenGao',  # 实验室主任 北大 高文院士
-        '40/5402',  # 北大 马思伟
-        '12/7627-1',  # 计算所 张新峰 副教授
-        '156/2359',  # 北大王选计算机研究所 杨文瀚
-        '02/894',  # 北大王选计算机研究所 郭宗明
-        's/JunSun12',  # 北大王选计算机研究所 孙俊
-        '58/9145-1',  # 香港城市大学 Shiqi Wang, 2014 年博士毕业
-        '156/2359',  # 南阳理工 杨文瀚, 2018 年博士毕业
-        # https://www.zhihu.com/question/22814279/answer/1798183969
-
         # 港中文、港大、南阳理工 多媒体联合实验室 http: // mmlab.ie.cuhk.edu.hk/people.html
         '54/4989-2',  # 香港大学 罗平 http://luoping.me
         '01/5855',  # 南洋理工 吕健勤 模型研究方向
         '16/1278',  # 中科院深圳先进技术研究所 董超, 2016年博士毕业 http://xpixel.group/people.html
 
+        '91/6236-1',  # 港中文 Xiaogang Wang
+
         # 待整理
-        '142/0351',  # 港中文 Fangxin Wang https://mypage.cuhk.edu.cn/academics/wangfangxin/index.html
-        '02/2683',  # 北大 宋令阳 电子学院 电子学院主要是研究通信和物理的，这位教授在这个学院似乎有点偏？
-        '23/1818',  # 中科大 Zheng-Jun Zha
-        '94/3601',  # 中科大肖明军
-        '06/2128',  # 孙立峰 清华大学计算机科学与技术系
-        '38/2763',  # 王生进
+        '142/0351',  # 港中文深圳 Fangxin Wang https://mypage.cuhk.edu.cn/academics/wangfangxin/index.html
         '78/1467-1',  # 华为 Qi Tian
         'q/YuQiao1',  # Yu Qiao
-        '38/559',  # 北大刘云淮
+        # 清华大学深圳研究院
+        '74/1552-1',  # 清深 江勇
+        '95/6543',  # 清华 王智
     ]
     g = GG(init, CCF_A)
-    for _ in range(16):
+    for _ in range(32):
         await g.bfs_once()
     summary = g.networkx_summary()
     summary = networkx_drop_noob_once(summary, filter_min_publications=1)
