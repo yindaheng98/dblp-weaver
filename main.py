@@ -1,36 +1,45 @@
+from itertools import product
 from pprint import pprint
-from itertools import product, combinations
 
 from dblp_crawler import *
 from dblp_crawler.data import CCF_A, CCF_B, CCF_C
 from dblp_crawler.keyword import *
 
+# 视频的关键词
+video_kw = {"video", "live", "feature", "vision", "resolution", "360", "vr", "camera", "visual", "hdr", 'uhd', "VSR"}
+
+# 超分的关键词
+sr_kw = {"super-resolution",
+         "denoise", "denoising", "deblur", "deblurring", "dehaze", "dehazing", "restoration", "restore", "restoring",
+         "interpolation", "interpolate", "inpaint", "inpainting",
+         "enhance", "enhancement", "neural"}
+
+# 传输的关键词
+trans_kw = {"stream", "streaming", "delivery", "deliver", "cached", "cache", "caching",
+            "adapt", "adaptive", "adaption", 'bit', 'bitrate', 'bandwidth', "qoe", "dash"}
+
+# 视频处理的关键词
+proc_kw = {"processing", "analytics"}
+
+# 应用的关键词
+app_kw = {"communication", "communicate", "conference", "conferencing", "stream", "streaming", "crowdcast"}
+
+# 计算的关键词
+comp_kw = {'mec', 'edge', 'in-network', "fog", "mobile",
+           'offload', 'offloading', "accelerate", "parallel", "compute", "computing"}
+
 keywords = Keywords()
 keywords.add_rule_list(
-    *list(product(
-        {"video", "live", "stream", "streaming", "feature", "vision", "resolution", "qoe", "360", "vr"},
-        {"delivery", "deliver", "cached", "cache", "caching", "communication", "communicate",
-         "quality", "code", "coding", "encode", "encoding", "decode", "decoding",
-         "adaptive", "adaption", 'super', 'high', 'low', 'bit', 'bitrate', 'bandwidth',
-         "denoising", "denoise", "deblur", "deblurring", "dehaze", "dehazing",
-         "restoration", "restore", "enhance", "enhancement", "interpolation", "interpolate", "inpaint", "inpainting",
-         'mec', 'edge', "neural", "fog", "mobile", "accelerate", "parallel"}
-    )),
-    *list(combinations(
-        {"video", "live", "stream", "streaming", "feature", "vision", "resolution", "360", "vr"}, 2
-    )),
-    *list(product(
-        {'content', 'quality'},
-        {"aware"}
-    )),
-    """
-    *list(product(
-        {'mec', 'edge', "fog"},
-        {"compute", "computing", "base", "based", "assist", "assisted", "assisting"}
-    )),
-    """
+    *list(product(video_kw, sr_kw)),
+    *list(product(video_kw, trans_kw)),
+    *list(product(video_kw, proc_kw)),
+    *list(product(video_kw, app_kw)),
+    *list(product(video_kw, comp_kw)),
+    *list(combinations(video_kw, 2)),
+    *list(product(video_kw, {'content', 'quality'}, {"aware"})),
+    *list(product(video_kw, {'super'}, {'resolution'})),
 )
-keywords.add_word_rules('hdr', 'uhd', "VSR", 'in-network', 'dash', 'offload', 'offloading')
+keywords.add_word_rules('hdr', 'uhd', "VSR")
 
 blacklist = [
     "CVPR Workshops"
@@ -105,7 +114,6 @@ async def main():
         with open("summary.js", 'w', encoding='utf8') as fw:
             fw.write("let data = " + json.dumps(j, indent=2))
     dump_papers_in_summary(summary, "papers.txt")
-    # draw_summary(summary)
 
 
 if __name__ == "__main__":
