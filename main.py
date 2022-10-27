@@ -6,13 +6,17 @@ from dblp_crawler.data import CCF_A, CCF_B, CCF_C
 from dblp_crawler.keyword import *
 
 # 视频的关键词
-video_kw = {"video", "live", "feature", "vision", "resolution", "360", "vr", "camera", "visual", "hdr", 'uhd', "VSR"}
+video_kw = {
+    "video", "live", "livecast", "livecast", "crowdcast",
+    "feature", "vision", "visual", "resolution",
+    "360", "vr", "camera", "hdr", 'uhd', "VSR"
+}
 
 # 超分的关键词
 sr_kw = {"super-resolution",
          "denoise", "denoising", "deblur", "deblurring", "dehaze", "dehazing", "restoration", "restore", "restoring",
          "interpolation", "interpolate", "inpaint", "inpainting",
-         "enhance", "enhancement", "neural"}
+         "enhance", "enhancement", "neural", "deep", "learn", "learning", "intelligent"}
 
 # 传输的关键词
 trans_kw = {"stream", "streaming", "delivery", "deliver", "cached", "cache", "caching",
@@ -24,9 +28,12 @@ proc_kw = {"processing", "analytics"}
 # 应用的关键词
 app_kw = {"communication", "communicate", "conference", "conferencing", "stream", "streaming", "crowdcast"}
 
+# 边缘的关键词
+edge_kw = {'mec', 'edge', 'in-network', "fog", "mobile"}
 # 计算的关键词
-comp_kw = {'mec', 'edge', 'in-network', "fog", "mobile",
-           'offload', 'offloading', "accelerate", "parallel", "compute", "computing"}
+comp_kw = {'offload', 'offloading', "accelerate", "parallel", "compute", "computing", "assist", "assisted"}
+# 边缘计算的关键词
+edge_comp_kw = edge_kw.union(comp_kw)
 
 keywords = Keywords()
 keywords.add_rule_list(
@@ -34,7 +41,7 @@ keywords.add_rule_list(
     *list(product(video_kw, trans_kw)),
     *list(product(video_kw, proc_kw)),
     *list(product(video_kw, app_kw)),
-    *list(product(video_kw, comp_kw)),
+    *list(product(video_kw, edge_comp_kw)),
     *list(combinations(video_kw, 2)),
     *list(product(video_kw, {'content', 'quality'}, {"aware"})),
     *list(product(video_kw, {'super'}, {'resolution'})),
