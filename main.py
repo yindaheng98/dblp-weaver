@@ -7,7 +7,7 @@ from dblp_crawler.keyword import *
 
 # 视频的关键词
 video_kw = {
-    "video", "live", "livecast", "livecast", "crowdcast",
+    "video", "live", "livecast", "livecast", "crowdcast", "crowdcasting", "crowdsource", "crowdsourcing",
     "feature", "vision", "visual", "resolution",
     "360", "vr", "camera", "hdr", 'uhd', "VSR"
 }
@@ -108,8 +108,8 @@ async def main():
         '95/6543',  # 清华 王智
     ]
     g = GG(init, CCF_A)
-    for _ in range(32):
-        await g.bfs_once()
+    while (await g.bfs_once()) > 0:
+        print("Still running......")
     summary = g.networkx_summary()
     summary = networkx_drop_noob_once(summary, filter_min_publications=1)
     summary = networkx_drop_thin_edge(summary, filter_min_publications=1)
