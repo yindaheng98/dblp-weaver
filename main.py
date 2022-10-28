@@ -90,7 +90,7 @@ class GG(Graph):
     def summary_person(self, person, publications):
         return dict(
             **super().summary_person(person, publications),
-            detail=construct_detail(person.publications()),
+            detail=construct_detail(list(person.publications())),
         )
 
     def summary_cooperation(self, a, b, publications):
@@ -107,7 +107,7 @@ class GG(Graph):
                 all_publications[pub.key()] = pub
         return dict(
             **super().summary_cooperation(a, b, publications),
-            detail=construct_detail(all_publications.values()),
+            detail=construct_detail(list(all_publications.values())),
         )
 
 
