@@ -108,23 +108,24 @@
                                     {name: "CCF A", value: ccf_count.A},
                                     {name: "CCF B", value: ccf_count.B},
                                     {name: "CCF C", value: ccf_count.C},
-                                ]
+                                ],
+                                label: {
+                                    formatter: '{b}: {c}篇',
+                                    position: 'inside'
+                                }
                             }
-                        ],
-                        label: {
-                            formatter: '{b}: {c}篇'
-                        }
+                        ]
                     })
                     conpie.setOption({
                         series: [
                             {
                                 type: "pie",
-                                data: conpie_data
+                                data: conpie_data,
+                                label: {
+                                    formatter: '{b}: {c}篇'
+                                }
                             }
-                        ],
-                        label: {
-                            formatter: '{b}: {c}篇'
-                        }
+                        ]
                     })
 
                     years = []
