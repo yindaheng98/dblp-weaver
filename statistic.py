@@ -1,9 +1,7 @@
 import json
-from config import colors
+from config import years_to_be_stat, is_noob, node_value, edge_value, node_color
 
 print("正在统计")
-
-years_to_be_stat = list(range(2016, 2023))
 
 
 def stat(data):  # d = data['nodes'][0]['data']或data['edges'][0]['data']
@@ -40,10 +38,6 @@ with open("summary.json", 'r', encoding='utf8') as fr:
         json.dump(j, fw, indent=2)
 
 print("正在筛选文章多的老师")
-
-
-def is_noob(data):
-    return data['detail']['ccf_count']['A'] < 32
 
 
 def drop_noob(data):
@@ -104,23 +98,6 @@ def export_line_data(data):
             d['C'].append(n['data']['detail']['year_count'][str(year)]['C'])
         line_data[n['id']] = d
     return line_data
-
-
-def node_value(node):
-    return node['data']['detail']['ccf_count']['A']
-
-
-def edge_value(edge):
-    return edge['data']['detail']['ccf_count']['A']
-
-
-def node_color(node):
-    if len(node['data']['publications']) < 2:  # 透明掉相关文章数小于2的
-        return 'rgba(97,195,238,0.2)'
-    for color, who in colors.items():
-        if node['id'] in who:
-            return color
-    return 'rgb(97,195,238)'
 
 
 def export_graph_data(data):

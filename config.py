@@ -1,3 +1,18 @@
+years_to_be_stat = list(range(2016, 2023))
+
+
+def is_noob(data):
+    return data['detail']['ccf_count']['A'] < 16
+
+
+def node_value(node):
+    return node['data']['detail']['ccf_count']['A']
+
+
+def edge_value(edge):
+    return edge['data']['detail']['ccf_count']['A']
+
+
 colors = {
     'red': (
         # 边缘计算+视频
@@ -130,3 +145,11 @@ colors = {
         '58/5750-1'  # 博士平均毕业时间》=6年
     )
 }
+
+
+def node_color(node):
+    if len(node['data']['publications']) < 2:  # 透明掉相关文章数小于2的
+        return 'rgba(97,195,238,0.2)'
+    for color, who in colors.items():
+        if node['id'] in who:
+            return color
