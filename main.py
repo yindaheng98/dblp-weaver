@@ -7,7 +7,7 @@ from dblp_crawler.keyword import *
 
 # 视频的关键词
 video_kw = {
-    "video", "live", "livecast", "livecast", "crowdcast", "crowdcasting", "crowdsource", "crowdsourcing",
+    "video", "live", "livecast", "livecast", "crowdcast", "crowdcasting",
     "feature", "vision", "visual", "resolution",
     "360", "vr", "camera", "hdr", 'uhd', "VSR"
 }

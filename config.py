@@ -152,8 +152,8 @@ colors = {
 
 
 def node_color(node):
-    if len(node['data']['publications']) < 2:  # 透明掉相关文章数小于2的
-        return 'rgba(97,195,238,0.2)'
     for color, who in colors.items():
         if node['id'] in who:
             return color
+    if len(node['data']['publications']) < 2:  # 透明掉相关文章数小于2的
+        return 'rgba(97,195,238,0.2)'
