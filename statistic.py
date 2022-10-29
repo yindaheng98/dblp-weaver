@@ -1,8 +1,9 @@
 import json
+from colorify import colors
 
 print("正在统计")
 
-years_to_be_stat = list(range(2012, 2023))
+years_to_be_stat = list(range(2016, 2023))
 
 
 def stat(data):  # d = data['nodes'][0]['data']或data['edges'][0]['data']
@@ -10,12 +11,12 @@ def stat(data):  # d = data['nodes'][0]['data']或data['edges'][0]['data']
     journal_count = {ccf: {} for ccf in ccf_count}
     year_count = {year: {ccf: 0 for ccf in ccf_count} for year in years_to_be_stat}
     for k, pub in data['detail'].items():
-        ccf_count[pub["CCF"]] += 1
         if pub["journal"] not in journal_count[pub["CCF"]]:
             journal_count[pub["CCF"]][pub["journal"]] = 0
         journal_count[pub["CCF"]][pub["journal"]] += 1
         if pub["year"] in year_count:
             year_count[pub["year"]][pub["CCF"]] += 1
+            ccf_count[pub["CCF"]] += 1
     data['detail'] = dict(
         ccf_count=ccf_count,
         journal_count=journal_count,
@@ -113,11 +114,21 @@ def edge_value(edge):
     return edge['data']['detail']['ccf_count']['A']
 
 
+def node_color(node):
+    if len(node['data']['publications']) < 2:  # 透明掉相关文章数小于2的
+        return 'rgba(97,195,238,0.2)'
+    for color, who in colors.items():
+        if node['id'] in who:
+            return color
+    return 'blue'
+
+
 def export_graph_data(data):
     graph_data = dict(nodes=[], edges=[])
     for n in data['nodes']:
         graph_data['nodes'].append({
             'id': n['id'], 'label': n['label'], 'value': node_value(n),
+            'color': node_color(n),
             'data': {
                 'publications': n['data']['publications'],
                 'person': n['data']['person']
