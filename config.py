@@ -5,6 +5,10 @@ def is_noob(data):
     return data['detail']['ccf_count']['A'] < 16
 
 
+def is_weak(data):
+    return data['detail']['ccf_count']['A'] < 4
+
+
 def node_value(node):
     return node['data']['detail']['ccf_count']['A']
 

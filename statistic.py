@@ -1,5 +1,5 @@
 import json
-from config import years_to_be_stat, is_noob, node_value, edge_value, node_color
+from config import years_to_be_stat, is_noob, is_weak, node_value, edge_value, node_color
 
 print("正在统计")
 
@@ -51,6 +51,8 @@ def drop_noob(data):
     edges = []
     for e in data['edges']:
         if e['from'] in drop_nodes or e['to'] in drop_nodes:
+            pass
+        elif is_weak(e["data"]):
             pass
         else:
             edges.append(e)
