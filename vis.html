@@ -75,40 +75,11 @@
             network.on("click", function (properties) {
                 if (properties.nodes.length > 0) {
                     let n = nodes.get(properties.nodes)[0]
-                    ccf_count = {A: 0, B: 0, C: 0, N: 0}
-                    ccf_year_count = {}
-                    journal_count = {}
-                    journal_ccf = {A: {}, B: {}, C: {}, N: {}}
-                    for (year = 2010; year <= 2022; year++) {
-                        ccf_year_count[year] = {A: 0, B: 0, C: 0, N: 0}
-                    }
-                    for (key in n.data.detail) {
-                        pub = n.data.detail[key]
-                        ccf_count[pub.CCF]++
-                        if (ccf_year_count[pub.year])
-                            ccf_year_count[pub.year][pub.CCF]++
-                        if (pub.journal === null)
-                            continue
-                        if (journal_count[pub.journal] === undefined)
-                            journal_count[pub.journal] = 0
-                        journal_count[pub.journal]++
-                        journal_ccf[pub.CCF][pub.journal] = 1
-                    }
-                    conpie_data = []
-                    for (key of ['A', 'B', 'C']) {
-                        for (journal in journal_ccf[key]) {
-                            conpie_data.push({name: journal, value: journal_count[journal]})
-                        }
-                    }
                     ccfpie.setOption({
                         series: [
                             {
                                 type: "pie",
-                                data: [
-                                    {name: "CCF A", value: ccf_count.A},
-                                    {name: "CCF B", value: ccf_count.B},
-                                    {name: "CCF C", value: ccf_count.C},
-                                ],
+                                data: ccfpie_data[n.id],
                                 label: {
                                     formatter: '{b}: {c}篇',
                                     position: 'inside'
@@ -120,23 +91,13 @@
                         series: [
                             {
                                 type: "pie",
-                                data: conpie_data,
+                                data: conpie_data[n.id],
                                 label: {
                                     formatter: '{b}: {c}篇'
                                 }
                             }
                         ]
                     })
-
-                    years = []
-                    year_ccf = {A: [], B: [], C: [], N: []}
-                    for (year = 2010; year <= 2022; year++) {
-                        years.push(year)
-                        year_ccf.A.push(ccf_year_count[year].A)
-                        year_ccf.B.push(ccf_year_count[year].B)
-                        year_ccf.C.push(ccf_year_count[year].C)
-                        year_ccf.N.push(ccf_year_count[year].N)
-                    }
                     line.setOption({
                         legend: {
                             orient: 'vertical',
@@ -149,7 +110,7 @@
                             axisTick: {
                                 alignWithLabel: true
                             },
-                            data: years
+                            data: line_data[n.id].years,
                         },
                         yAxis: {
                             name: '论文数'
@@ -157,17 +118,17 @@
                         series: [
                             {
                                 name: "CCF A",
-                                data: year_ccf.A,
+                                data: line_data[n.id].A,
                                 type: 'line',
                             },
                             {
                                 name: "CCF B",
-                                data: year_ccf.B,
+                                data: line_data[n.id].B,
                                 type: 'line',
                             },
                             {
                                 name: "CCF C",
-                                data: year_ccf.C,
+                                data: line_data[n.id].C,
                                 type: 'line',
                             }
                         ]

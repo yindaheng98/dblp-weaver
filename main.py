@@ -137,10 +137,6 @@ async def main():
     pprint(dropped_journal)
     with open("summary.json", 'w', encoding='utf8') as f:
         json.dump(summary_to_json(summary), fp=f, cls=JSONEncoder, indent=2)
-    with open("summary.json", 'r', encoding='utf8') as fr:
-        j = json.load(fr)
-        with open("summary.js", 'w', encoding='utf8') as fw:
-            fw.write("let data = " + json.dumps(j, indent=2))
     dump_papers_in_summary(summary, "papers.txt")
 
 
