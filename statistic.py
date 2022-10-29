@@ -1,5 +1,5 @@
 import json
-from colorify import colors
+from config import colors
 
 print("正在统计")
 
@@ -120,7 +120,7 @@ def node_color(node):
     for color, who in colors.items():
         if node['id'] in who:
             return color
-    return 'blue'
+    return 'rgb(97,195,238)'
 
 
 def export_graph_data(data):
