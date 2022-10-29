@@ -1,6 +1,6 @@
 import json
 
-years_to_be_stat = list(range(2010, 2023))
+years_to_be_stat = list(range(2012, 2023))
 
 
 def stat(data):  # d = data['nodes'][0]['data']或data['edges'][0]['data']
@@ -33,5 +33,33 @@ def stat_all(data):
 with open("summary.json", 'r', encoding='utf8') as fr:
     j = json.load(fr)
     j = stat_all(j)
+    with open("statistic_full.json", 'w', encoding='utf8') as fw:
+        json.dump(j, fw, indent=2)
+
+
+def is_noob(data):
+    return data['detail']['ccf_count']['A'] < 20
+
+
+def drop_noob(data):
+    nodes = []
+    drop_nodes = set()
+    for n in data['nodes']:
+        if is_noob(n["data"]):
+            drop_nodes.add(n["id"])
+        else:
+            nodes.append(n)
+    edges = []
+    for e in data['edges']:
+        if e['from'] in drop_nodes or e['to'] in drop_nodes:
+            pass
+        else:
+            edges.append(e)
+    return dict(nodes=nodes, edges=edges)
+
+
+with open("statistic_full.json", 'r', encoding='utf8') as fr:
+    j = json.load(fr)
+    j = drop_noob(j)
     with open("statistic.json", 'w', encoding='utf8') as fw:
         json.dump(j, fw, indent=2)
