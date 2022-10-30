@@ -19,8 +19,8 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main(
-        summary_path="summary_video.json",
-        paper_path="papers_video.txt",
+        summary_path="summary_optimization.json",
+        paper_path="papers_optimization.txt",
         keywords=keywords,
         blacklist=blacklist,
         pid_list=[],
