@@ -1,5 +1,5 @@
 from dblp_crawler import *
-from dblp_crawler.data import CCF_A
+from dblp_crawler.data import CCF_A, CCF_B
 from dblp_crawler.keyword import *
 from example import main
 from main import blacklist
@@ -22,5 +22,5 @@ if __name__ == "__main__":
         keywords=keywords,
         blacklist=blacklist,
         pid_list=[],
-        journal_list=CCF_A
+        journal_list=CCF_A + CCF_B
     ))
