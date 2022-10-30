@@ -1,4 +1,3 @@
-from pprint import pprint
 from dblp_crawler import *
 from dblp_crawler.data import CCF_A, CCF_B, CCF_C
 from dblp_crawler.keyword import Keywords
@@ -30,14 +29,14 @@ class GG(Graph):
         self.blacklist = blacklist
 
     def filter_publications_at_crawler(self, publications):
-        publications = filter_publications_after(publications, 2019)
+        publications = filter_publications_after(publications, 2016)  # 6年内
         publications = filter_publications_by_journals(publications, CCF_A + CCF_B)
         publications = filter_publications_by_title_with_func(publications, self.keywords.match_words)
         publications = drop_publications_by_journals(publications, self.blacklist)
         return publications
 
     def filter_publications_at_output(self, publications):
-        publications = filter_publications_after(publications, 2020)
+        publications = filter_publications_after(publications, 2019)  # 3年内
         publications = filter_publications_by_journals(publications, CCF_A)
         publications = filter_publications_by_title_with_func(publications, self.keywords.match)
         publications = drop_publications_by_journals(publications, self.blacklist)
