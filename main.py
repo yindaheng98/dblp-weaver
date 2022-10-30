@@ -2,8 +2,9 @@ from itertools import product
 from pprint import pprint
 
 from dblp_crawler import *
-from dblp_crawler.data import CCF_A, CCF_B, CCF_C
+from dblp_crawler.data import CCF_A
 from dblp_crawler.keyword import *
+from example import GG
 
 # 视频的关键词
 video_kw = {
@@ -69,64 +70,6 @@ blacklist = [
 ]
 
 
-def construct_detail(publications):
-    detail = {}
-
-    def get_detail(pub, ccf):
-        return dict(
-            year=pub.year(), CCF=ccf, journal=pub.journal(),  # title=pub.title(), # too large
-            authors=", ".join(str(author) for author in pub.authors()))
-
-    for publication in publications:
-        detail[publication.key()] = get_detail(publication, 'N')
-    for publication in filter_publications_by_journals(publications, CCF_A):
-        detail[publication.key()] = get_detail(publication, 'A')
-    for publication in filter_publications_by_journals(publications, CCF_B):
-        detail[publication.key()] = get_detail(publication, 'B')
-    for publication in filter_publications_by_journals(publications, CCF_C):
-        detail[publication.key()] = get_detail(publication, 'C')
-    return detail
-
-
-class GG(Graph):
-    def filter_publications_at_crawler(self, publications):
-        publications = filter_publications_after(publications, 2019)
-        publications = filter_publications_by_journals(publications, CCF_A + CCF_B)
-        publications = filter_publications_by_title_with_func(publications, keywords.match_words)
-        publications = drop_publications_by_journals(publications, blacklist)
-        return publications
-
-    def filter_publications_at_output(self, publications):
-        publications = filter_publications_after(publications, 2020)
-        publications = filter_publications_by_journals(publications, CCF_A)
-        publications = filter_publications_by_title_with_func(publications, keywords.match)
-        publications = drop_publications_by_journals(publications, blacklist)
-        return publications
-
-    def summary_person(self, person, publications):
-        return dict(
-            **super().summary_person(person, publications),
-            detail=construct_detail(list(person.publications())),
-        )
-
-    def summary_cooperation(self, a, b, publications):
-        all_publications = {}
-        for pub in a.publications():
-            if pub.key() in all_publications:
-                continue
-            if b.pid() in list(author.pid() for author in pub.authors()):
-                all_publications[pub.key()] = pub
-        for pub in b.publications():
-            if pub.key() in all_publications:
-                continue
-            if a.pid() in list(author.pid() for author in pub.authors()):
-                all_publications[pub.key()] = pub
-        return dict(
-            **super().summary_cooperation(a, b, publications),
-            detail=construct_detail(list(all_publications.values())),
-        )
-
-
 async def main():
     init = [
         # 港中文、港大、南阳理工 多媒体联合实验室 http: // mmlab.ie.cuhk.edu.hk/people.html
@@ -144,7 +87,7 @@ async def main():
         '74/1552-1',  # 清深 江勇
         '95/6543',  # 清华 王智
     ]
-    g = GG(init, CCF_A)
+    g = GG(init, CCF_A, keywords, blacklist)
     while (await g.bfs_once()) > 0:
         print("Still running......")
     summary = g.networkx_summary()
