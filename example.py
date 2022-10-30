@@ -1,6 +1,7 @@
+from pprint import pprint
 from dblp_crawler import *
 from dblp_crawler.data import CCF_A, CCF_B, CCF_C
-from dblp_crawler.keyword import *
+from dblp_crawler.keyword import Keywords
 
 
 def construct_detail(publications):
@@ -23,8 +24,8 @@ def construct_detail(publications):
 
 
 class GG(Graph):
-    def __init__(self, pid_list: [str], journal_list: [str], keywords: Keywords, blacklist: [str]):
-        super().__init__(pid_list, journal_list)
+    def __init__(self, keywords: Keywords, blacklist: [str], *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.keywords = keywords
         self.blacklist = blacklist
 
@@ -64,3 +65,16 @@ class GG(Graph):
             **super().summary_cooperation(a, b, publications),
             detail=construct_detail(list(all_publications.values())),
         )
+
+
+async def main(summary_path, paper_path, *args, **kwargs):
+    g = GG(*args, **kwargs)
+    while (await g.bfs_once()) > 0:
+        print("Still running......")
+    summary = g.networkx_summary()
+    summary = networkx_drop_noob_once(summary, filter_min_publications=1)
+    summary = networkx_drop_thin_edge(summary, filter_min_publications=1)
+    pprint(dropped_journal)
+    with open(summary_path, 'w', encoding='utf8') as f:
+        json.dump(summary_to_json(summary), fp=f, cls=JSONEncoder, indent=2)
+    dump_papers_in_summary(summary, paper_path)
