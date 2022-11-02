@@ -68,7 +68,7 @@ class GG(Graph):
 
 async def main(summary_path, paper_path, *args, **kwargs):
     g = GG(*args, **kwargs)
-    while (await g.bfs_once()) > 0:
+    while min(*(await g.bfs_once())) > 0:
         print("Still running......")
     summary = g.networkx_summary()
     summary = networkx_drop_noob_once(summary, filter_min_publications=1)
