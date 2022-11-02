@@ -2,11 +2,13 @@ years_to_be_stat = list(range(2016, 2023))
 
 
 def is_noob(data):
-    return data['detail']['ccf_count']['A'] < 16
+    year_count = data['detail']["year_count"]
+    return year_count["2022"]['A'] + year_count["2021"]['A'] + year_count["2020"]['A'] < 16
 
 
 def is_weak(data):
-    return data['detail']['ccf_count']['A'] < 4
+    year_count = data['detail']["year_count"]
+    return year_count["2022"]['A'] + year_count["2021"]['A'] + year_count["2020"]['A'] < 3
 
 
 def node_value(node):
@@ -68,6 +70,8 @@ colors = {
         '86/896', '63/8217-1',  # 华为的
         '97/2966-2',  # 悉尼大学的
         '93/6765-1',  # 合肥科技
+        '45/7737',  # 美国的
+        '50/2644-1',  # 手头一堆6年的博士
 
         # 偏通信
         '25/3972-1',
