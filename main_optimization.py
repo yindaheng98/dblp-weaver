@@ -10,7 +10,8 @@ keywords.add_word_rules(
     "quantize", "quantization",
     "compress", "compression",
     "distillate", "distilling", "distillation",
-    "normalization"
+    "normalization",
+    "adversarial", "adversarially",
 )
 
 if __name__ == "__main__":
