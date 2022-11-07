@@ -1,17 +1,26 @@
+from itertools import product
 from dblp_crawler import *
 from dblp_crawler.data import CCF_A
 from dblp_crawler.keyword import *
 from example import main
 from main import blacklist
 
-# 视频的关键词
 keywords = Keywords()
 keywords.add_word_rules(
+    "accelerate", "accelerated", "acceleration", "accelerator",
     "quantize", "quantization",
-    "compress", "compression",
+    "compress", "compression", "compressive",
     "distillate", "distilling", "distillation",
-    "normalization",
-    "adversarial", "adversarially",
+    "normalization", "normalize",
+    "binarization", "binarize", "binarized", "binary",
+    "HPC", "QAT", "PTQ",
+    "tune", "tuning",
+)
+keywords.add_rule_list(
+    *list(product({"adversarially", "adversarial"},
+                  {"attack", "robustness", "examples", "example"})),
+    {"high", "performance"},
+    {"communication", "efficient", "distributed"},
 )
 
 if __name__ == "__main__":
