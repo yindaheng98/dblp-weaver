@@ -10,10 +10,9 @@ keywords.add_word_rules(
     "accelerate", "accelerated", "acceleration", "accelerator",
     "quantize", "quantization",
     "compress", "compression", "compressive",
-    "distillate", "distilling", "distillation",
     "normalization", "normalize",
     "binarization", "binarize", "binarized", "binary",
-    "HPC", "QAT", "PTQ",
+    "QAT", "PTQ",
     "tune", "tuning",
 )
 keywords.add_rule_list(
@@ -21,7 +20,6 @@ keywords.add_rule_list(
                   {"attack", "attacking",
                    "robust", "robustness",
                    "example", "examples", })),
-    {"high", "performance"},
     {"communication", "efficient", "distributed"},
 )
 
