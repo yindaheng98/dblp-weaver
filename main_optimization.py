@@ -18,7 +18,9 @@ keywords.add_word_rules(
 )
 keywords.add_rule_list(
     *list(product({"adversarially", "adversarial"},
-                  {"attack", "robustness", "examples", "example"})),
+                  {"attack", "attacking",
+                   "robust", "robustness",
+                   "example", "examples", })),
     {"high", "performance"},
     {"communication", "efficient", "distributed"},
 )
