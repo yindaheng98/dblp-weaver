@@ -108,10 +108,6 @@ def export_graph_data(data):
         graph_data['nodes'].append({
             'id': n['id'], 'label': n['label'], 'value': node_value(n),
             'color': node_color(n),
-            'data': {
-                'publications': n['data']['publications'],
-                'person': n['data']['person']
-            }
         })
     for e in data['edges']:
         graph_data['edges'].append({
@@ -121,14 +117,46 @@ def export_graph_data(data):
     return graph_data
 
 
+def export_person_data(data):
+    person_data = {n['id']: n['data']['person'] for n in data['nodes']}
+    return person_data
+
+
+def export_pub_data(data):
+    pub_data = {n['id']: n['data']['publications'] for n in data['nodes']}
+    return pub_data
+
+
+import numpy as np
+
+
+def export_ranking_data(data):
+    ranking_value = np.array([node_value(n) for n in data['nodes']])
+    ranking_label = np.array([n['label'] for n in data['nodes']])
+    ranking_id = np.array([n['id'] for n in data['nodes']])
+    sort_arg = ranking_value.argsort()
+    ranking_data = dict(
+        id=ranking_id[sort_arg].tolist(),
+        label=ranking_label[sort_arg].tolist(),
+        data=ranking_value[sort_arg].tolist()
+    )
+    return ranking_data
+
+
 with open("statistic.json", 'r', encoding='utf8') as fr:
     j = json.load(fr)
     graph_data = export_graph_data(j)
+    person_data = export_person_data(j)
+    pub_data = export_pub_data(j)
     ccfpie_data = export_ccfpie_data(j)
     conpie_data = export_conpie_data(j)
     line_data = export_line_data(j)
+    ranking_data = export_ranking_data(j)
     with open("summary.js", 'w', encoding='utf8') as fw:
         fw.write("let data = " + json.dumps(graph_data, indent=2) + ";\n")
+        fw.write("let person_data = " + json.dumps(person_data, indent=2) + ";\n")
+        fw.write("let pub_data = " + json.dumps(pub_data, indent=2) + ";\n")
         fw.write("let ccfpie_data = " + json.dumps(ccfpie_data, indent=2) + ";\n")
         fw.write("let conpie_data = " + json.dumps(conpie_data, indent=2) + ";\n")
         fw.write("let line_data = " + json.dumps(line_data, indent=2) + ";\n")
+        fw.write("let ranking_data = " + json.dumps(ranking_data, indent=2) + ";\n")

@@ -61,7 +61,7 @@
             network.on("click", function (properties) {
                 if (properties.nodes.length > 0) {
                     let n = nodes.get(properties.nodes)[0]
-                    text = n.data.person + "\n\n" + n.data.publications.join('\n\n')
+                    text = person_data[n.id] + "\n\n" + pub_data[n.id].join('\n\n')
                 } else if (properties.edges.length > 0) {
                     let e = edges.get(properties.edges)[0]
                     text = e.data.publications.join('\n\n')

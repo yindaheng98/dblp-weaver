@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vis Network | Data | Scaling Labels</title>
+
+    <style type="text/css">
+        html,
+        body {
+            font: 10pt arial;
+        }
+
+        #network {
+            width: 40%;
+            height: 600px;
+            float: left;
+        }
+
+        #data {
+            width: 60%;
+            height: 600px;
+            float: right;
+            overflow: scroll;
+        }
+
+        #publications {
+            width: 100%;
+        }
+    </style>
+
+    <script type="text/javascript" src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/echarts@5.3.3/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="summary.js"></script>
+
+    <script type="text/javascript">
+        var nodes = null;
+        var edges = null;
+        var network = null;
+
+        function draw() {
+
+            // Instantiate our network object.
+            var container = document.getElementById("network");
+            var options = {
+                title: {
+                    text: 'Ranking'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {},
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: { type: 'value' },
+                yAxis: {
+                    type: 'category',
+                    data: ranking_data.label
+                },
+                series: [
+                    {
+                        type: 'bar',
+                        data: ranking_data.data
+                    },
+                ]
+            };
+            ranking = echarts.init(container);
+            ranking.setOption(options);
+            text = ''
+            ranking.on("click", function (properties) {
+                id = ranking_data.id[properties.dataIndex]
+                text = person_data[id] + "\n\n" + pub_data[id].join('\n\n')
+                document.getElementById("publications").innerText = text
+            });
+
+            ccfpie = echarts.init(document.getElementById("ccfpie"));
+            conpie = echarts.init(document.getElementById("conpie"));
+            line = echarts.init(document.getElementById("line"));
+            ranking.on("click", function (properties) {
+                id = ranking_data.id[properties.dataIndex]
+                ccfpie.setOption({
+                    series: [
+                        {
+                            type: "pie",
+                            data: ccfpie_data[id],
+                            label: {
+                                formatter: '{b}: {c}篇',
+                                position: 'inside'
+                            }
+                        }
+                    ]
+                })
+                conpie.setOption({
+                    series: [
+                        {
+                            type: "pie",
+                            data: conpie_data[id],
+                            label: {
+                                formatter: '{b}: {c}篇'
+                            }
+                        }
+                    ]
+                })
+                line.setOption({
+                    legend: {
+                        orient: 'vertical',
+                        right: 10,
+                        top: 'center',
+                    },
+                    xAxis: {
+                        name: '年份',
+                        type: 'category',
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        data: line_data[id].years,
+                    },
+                    yAxis: {
+                        name: '论文数'
+                    },
+                    series: [
+                        {
+                            name: "CCF A",
+                            data: line_data[id].A,
+                            type: 'line',
+                        },
+                        {
+                            name: "CCF B",
+                            data: line_data[id].B,
+                            type: 'line',
+                        },
+                        {
+                            name: "CCF C",
+                            data: line_data[id].C,
+                            type: 'line',
+                        }
+                    ]
+                })
+            });
+        }
+    </script>
+</head>
+
+<body onload="draw()">
+    <div id="network"></div>
+    <div id="data">
+        <div id="chart" style="height: 600px; width: 100%">
+            <div style="height: 300px; width: 100%">
+                <div id="ccfpie" style="height: 300px; width: 50%; float:left"></div>
+                <div id="conpie" style="height: 300px; width: 50%; float:right"></div>
+            </div>
+            <div id="line" style="height: 300px; width: 100%"></div>
+        </div>
+        <div id="publications"></div>
+    </div>
+</body>
+
+</html>
