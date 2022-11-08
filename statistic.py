@@ -132,13 +132,16 @@ import numpy as np
 
 def export_ranking_data(data):
     ranking_value = np.array([node_value(n) for n in data['nodes']])
+    ranking_value_colors = np.array([
+        dict(value=node_value(n), itemStyle=dict(color=node_color(n)))
+        for n in data['nodes']])
     ranking_label = np.array([n['label'] for n in data['nodes']])
     ranking_id = np.array([n['id'] for n in data['nodes']])
     sort_arg = ranking_value.argsort()
     ranking_data = dict(
         id=ranking_id[sort_arg].tolist(),
         label=ranking_label[sort_arg].tolist(),
-        data=ranking_value[sort_arg].tolist()
+        data=ranking_value_colors[sort_arg].tolist()
     )
     return ranking_data
 
