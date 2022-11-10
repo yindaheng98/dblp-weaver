@@ -8,7 +8,7 @@ def construct_detail(publications):
 
     def get_detail(pub, ccf):
         return dict(
-            year=pub.year(), CCF=ccf, journal=pub.journal(),  # title=pub.title(), # too large
+            year=pub.year(), CCF=ccf, journal=pub.journal(), title=pub.title(),  # maybe too large
             authors=", ".join(str(author) for author in pub.authors()))
 
     for publication in publications:
@@ -29,7 +29,8 @@ class GG(Graph):
         self.blacklist = blacklist
 
     def filter_publications_at_crawler(self, publications):
-        publications = filter_publications_after(publications, 2016)  # 6年内
+        # publications = filter_publications_after(publications, 2016)  # 6年内
+        publications = filter_publications_after(publications, 2019)  # 3年内
         publications = filter_publications_by_journals(publications, CCF_A + CCF_B)
         publications = filter_publications_by_title_with_func(publications, self.keywords.match_words)
         publications = drop_publications_by_journals(publications, self.blacklist)
