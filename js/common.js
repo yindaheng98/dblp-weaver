@@ -68,3 +68,6 @@ function get_line_option(id, line_data) {
         ]
     }
 }
+function get_person_raw_data(id, raw_data) {
+    return raw_data[id]
+}

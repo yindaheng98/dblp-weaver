@@ -91,6 +91,12 @@
                 conpie.setOption(get_conpie_option(id, conpie_data))
                 line.setOption(get_line_option(id, line_data))
             });
+
+            var person_raw_data;
+            ranking.on("click", function (properties) {
+                id = ranking_data.id[properties.dataIndex]
+                person_raw_data = get_person_raw_data(id, raw_data)
+            });
         }
     </script>
 </head>
