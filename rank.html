@@ -3,7 +3,7 @@
 
 <head>
     <title>Vis Network | Data | Scaling Labels</title>
-
+    <meta charset="UTF-8">
     <style type="text/css">
         html,
         body {
@@ -30,6 +30,7 @@
 
     <script type="text/javascript" src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/echarts@5.3.3/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript" src="summary.js"></script>
 
     <script type="text/javascript">
@@ -75,10 +76,9 @@
             };
             ranking = echarts.init(container);
             ranking.setOption(options);
-            text = ''
             ranking.on("click", function (properties) {
                 id = ranking_data.id[properties.dataIndex]
-                text = person_data[id] + "\n\n" + pub_data[id].join('\n\n')
+                text = get_pub_text(id, person_data, pub_data)
                 document.getElementById("publications").innerText = text
             });
 
@@ -87,64 +87,9 @@
             line = echarts.init(document.getElementById("line"));
             ranking.on("click", function (properties) {
                 id = ranking_data.id[properties.dataIndex]
-                ccfpie.setOption({
-                    series: [
-                        {
-                            type: "pie",
-                            data: ccfpie_data[id],
-                            label: {
-                                formatter: '{b}: {c}篇',
-                                position: 'inside'
-                            }
-                        }
-                    ]
-                })
-                conpie.setOption({
-                    series: [
-                        {
-                            type: "pie",
-                            data: conpie_data[id],
-                            label: {
-                                formatter: '{b}: {c}篇'
-                            }
-                        }
-                    ]
-                })
-                line.setOption({
-                    legend: {
-                        orient: 'vertical',
-                        right: 10,
-                        top: 'center',
-                    },
-                    xAxis: {
-                        name: '年份',
-                        type: 'category',
-                        axisTick: {
-                            alignWithLabel: true
-                        },
-                        data: line_data[id].years,
-                    },
-                    yAxis: {
-                        name: '论文数'
-                    },
-                    series: [
-                        {
-                            name: "CCF A",
-                            data: line_data[id].A,
-                            type: 'line',
-                        },
-                        {
-                            name: "CCF B",
-                            data: line_data[id].B,
-                            type: 'line',
-                        },
-                        {
-                            name: "CCF C",
-                            data: line_data[id].C,
-                            type: 'line',
-                        }
-                    ]
-                })
+                ccfpie.setOption(get_ccfpie_option(id, ccfpie_data))
+                conpie.setOption(get_conpie_option(id, conpie_data))
+                line.setOption(get_line_option(id, line_data))
             });
         }
     </script>

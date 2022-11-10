@@ -1,0 +1,67 @@
+function get_pub_text(id, person_data, pub_data) {
+    return person_data[id] + "\n\n" + pub_data[id].join('\n\n')
+}
+function get_ccfpie_option(id, ccfpie_data) {
+    return {
+        series: [
+            {
+                type: "pie",
+                data: ccfpie_data[id],
+                label: {
+                    formatter: '{b}: {c}篇',
+                    position: 'inside'
+                }
+            }
+        ]
+    }
+}
+function get_conpie_option(id, conpie_data) {
+    return {
+        series: [
+            {
+                type: "pie",
+                data: conpie_data[id],
+                label: {
+                    formatter: '{b}: {c}篇'
+                }
+            }
+        ]
+    }
+}
+function get_line_option(id, line_data) {
+    return {
+        legend: {
+            orient: 'vertical',
+            right: 10,
+            top: 'center',
+        },
+        xAxis: {
+            name: '年份',
+            type: 'category',
+            axisTick: {
+                alignWithLabel: true
+            },
+            data: line_data[id].years,
+        },
+        yAxis: {
+            name: '论文数'
+        },
+        series: [
+            {
+                name: "CCF A",
+                data: line_data[id].A,
+                type: 'line',
+            },
+            {
+                name: "CCF B",
+                data: line_data[id].B,
+                type: 'line',
+            },
+            {
+                name: "CCF C",
+                data: line_data[id].C,
+                type: 'line',
+            }
+        ]
+    }
+}
