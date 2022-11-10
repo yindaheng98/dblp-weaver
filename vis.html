@@ -1,154 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Vis Network | Data | Scaling Labels</title>
 
+<head>
+    <title>Network</title>
+    <meta charset="UTF-8">
     <style type="text/css">
         html,
         body {
             font: 10pt arial;
-        }
-
-        #network {
-            width: 40%;
-            height: 600px;
-            float: left;
-        }
-
-        #data {
-            width: 60%;
-            height: 600px;
-            float: right;
-            overflow: scroll;
-        }
-
-        #publications {
             width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            vertical-align: middle;
+            margin: 0px;
+            align-items: center;
         }
     </style>
 
-    <script type="text/javascript"
-            src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
-    <script type="text/javascript"
-            src="https://unpkg.com/echarts@5.3.3/dist/echarts.min.js"></script>
-    <script type="text/javascript"
-            src="summary.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/echarts@5.3.3/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="summary.js"></script>
+</head>
 
-    <script type="text/javascript">
-        var nodes = null;
-        var edges = null;
-        var network = null;
+<body onload="draw()">
+    <div id="network" style="width: 39%; height: 99%;"></div>
+    <div id="data" style="width: 59%; height: 99%; overflow: scroll;">
+        <div id="chart" style="width: 99%; height: 600px">
+            <div style="height: 300px; width: 99%">
+                <div id="ccfpie" style="height: 300px; width: 49%; float:left"></div>
+                <div id="conpie" style="height: 300px; width: 49%; float:right"></div>
+            </div>
+            <div id="line" style="height: 300px; width: 99%"></div>
+        </div>
+        <div id="publications" style="width: 99%"></div>
+    </div>
+</body>
 
-        function draw() {
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+    var nodes = null;
+    var edges = null;
+    var network = null;
 
-            // Instantiate our network object.
-            var container = document.getElementById("network");
-            var options = {
-                nodes: {
-                    shape: "circle",
-                    scaling: {
-                        label: {
-                            min: 0,
-                            max: 25,
-                        },
+    function draw() {
+
+        // Instantiate our network object.
+        var container = document.getElementById("network");
+        var options = {
+            nodes: {
+                shape: "circle",
+                scaling: {
+                    label: {
+                        min: 0,
+                        max: 25,
                     },
                 },
-            };
-            nodes = new vis.DataSet(data.nodes)
-            edges = new vis.DataSet(data.edges)
-            network = new vis.Network(container, {nodes: nodes, edges: edges}, options);
-            text = ''
-            network.on("click", function (properties) {
-                if (properties.nodes.length > 0) {
-                    let n = nodes.get(properties.nodes)[0]
-                    text = person_data[n.id] + "\n\n" + pub_data[n.id].join('\n\n')
-                } else if (properties.edges.length > 0) {
-                    let e = edges.get(properties.edges)[0]
-                    text = e.data.publications.join('\n\n')
-                }
-                document.getElementById("publications").innerText = text
-            });
+            },
+        };
+        nodes = new vis.DataSet(data.nodes)
+        edges = new vis.DataSet(data.edges)
+        network = new vis.Network(container, { nodes: nodes, edges: edges }, options);
+        network.on("click", function (properties) {
+            if (properties.nodes.length > 0) {
+                id = nodes.get(properties.nodes)[0].id
+                change_person(id)
+            } else if (properties.edges.length > 0) {
+                let e = edges.get(properties.edges)[0]
+                text = e.data.publications.join('\n\n')
+            }
+            document.getElementById("publications").innerText = text
+        });
+    }
+</script>
 
-            ccfpie = echarts.init(document.getElementById("ccfpie"));
-            conpie = echarts.init(document.getElementById("conpie"));
-            line = echarts.init(document.getElementById("line"));
-            network.on("click", function (properties) {
-                if (properties.nodes.length > 0) {
-                    let n = nodes.get(properties.nodes)[0]
-                    ccfpie.setOption({
-                        series: [
-                            {
-                                type: "pie",
-                                data: ccfpie_data[n.id],
-                                label: {
-                                    formatter: '{b}: {c}篇',
-                                    position: 'inside'
-                                }
-                            }
-                        ]
-                    })
-                    conpie.setOption({
-                        series: [
-                            {
-                                type: "pie",
-                                data: conpie_data[n.id],
-                                label: {
-                                    formatter: '{b}: {c}篇'
-                                }
-                            }
-                        ]
-                    })
-                    line.setOption({
-                        legend: {
-                            orient: 'vertical',
-                            right: 10,
-                            top: 'center',
-                        },
-                        xAxis: {
-                            name: '年份',
-                            type: 'category',
-                            axisTick: {
-                                alignWithLabel: true
-                            },
-                            data: line_data[n.id].years,
-                        },
-                        yAxis: {
-                            name: '论文数'
-                        },
-                        series: [
-                            {
-                                name: "CCF A",
-                                data: line_data[n.id].A,
-                                type: 'line',
-                            },
-                            {
-                                name: "CCF B",
-                                data: line_data[n.id].B,
-                                type: 'line',
-                            },
-                            {
-                                name: "CCF C",
-                                data: line_data[n.id].C,
-                                type: 'line',
-                            }
-                        ]
-                    })
-                }
-            });
-        }
-    </script>
-</head>
-<body onload="draw()">
-<div id="network"></div>
-<div id="data">
-    <div id="chart" style="height: 600px; width: 100%">
-        <div style="height: 300px; width: 100%">
-            <div id="ccfpie" style="height: 300px; width: 50%; float:left"></div>
-            <div id="conpie" style="height: 300px; width: 50%; float:right"></div>
-        </div>
-        <div id="line" style="height: 300px; width: 100%"></div>
-    </div>
-    <div id="publications"></div>
-</div>
-</body>
 </html>
