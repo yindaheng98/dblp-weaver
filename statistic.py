@@ -73,9 +73,9 @@ def export_ccfpie_data(data):
     ccfpie_data = {}
     for n in data['nodes']:
         ccfpie_data[n['id']] = [
-            dict(name="CCF A", value=n['data']['detail']['ccf_count']['A']),
-            dict(name="CCF B", value=n['data']['detail']['ccf_count']['B']),
-            dict(name="CCF C", value=n['data']['detail']['ccf_count']['C']),
+            dict(name='A', value=n['data']['detail']['ccf_count']['A']),
+            dict(name='B', value=n['data']['detail']['ccf_count']['B']),
+            dict(name='C', value=n['data']['detail']['ccf_count']['C']),
         ]
     return ccfpie_data
 

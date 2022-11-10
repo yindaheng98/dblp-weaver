@@ -8,7 +8,7 @@ function get_ccfpie_option(id, ccfpie_data) {
                 type: "pie",
                 data: ccfpie_data[id],
                 label: {
-                    formatter: '{b}: {c}篇',
+                    formatter: 'CCF {b}: {c}篇',
                     position: 'inside'
                 }
             }
@@ -49,16 +49,19 @@ function get_line_option(id, line_data) {
         series: [
             {
                 name: "CCF A",
+                id: "A",
                 data: line_data[id].A,
                 type: 'line',
             },
             {
                 name: "CCF B",
+                id: "B",
                 data: line_data[id].B,
                 type: 'line',
             },
             {
                 name: "CCF C",
+                id: "C",
                 data: line_data[id].C,
                 type: 'line',
             }
