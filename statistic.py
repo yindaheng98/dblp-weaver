@@ -26,6 +26,8 @@ def stat(data):  # d = data['nodes'][0]['data']或data['edges'][0]['data']
 def cat(data):
     c = {}
     for k, pub in data['detail'].items():
+        if pub["year"] not in years_to_be_stat:
+            continue
         if pub["year"] not in c:
             c[pub["year"]] = {}
         if pub["CCF"] not in c[pub["year"]]:
