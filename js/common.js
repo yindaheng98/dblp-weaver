@@ -1,6 +1,3 @@
-function get_pub_text(id, person_data, pub_data) {
-    return person_data[id] + "\n\n" + pub_data[id].join('\n\n')
-}
 function get_ccfpie_option(id, ccfpie_data) {
     return {
         series: [
@@ -68,6 +65,26 @@ function get_line_option(id, line_data) {
         ]
     }
 }
+function get_pub_text(id, person_data, pub_data) {
+    return person_data[id] + "\n\n" + pub_data[id].join('\n\n')
+}
+
+ccfpie = echarts.init(document.getElementById("ccfpie"));
+conpie = echarts.init(document.getElementById("conpie"));
+line = echarts.init(document.getElementById("line"));
+pub = document.getElementById("publications")
+function change_person(id) {
+    ccfpie.setOption(get_ccfpie_option(id, ccfpie_data))
+    conpie.setOption(get_conpie_option(id, conpie_data))
+    line.setOption(get_line_option(id, line_data))
+    pub.innerText = get_pub_text(id, person_data, pub_data)
+}
+
 function get_person_raw_data(id, raw_data) {
     return raw_data[id]
+}
+function search_person_raw_data(year, ccf, journal, person_raw_data) {
+    for (raw in person_raw_data) {
+
+    }
 }

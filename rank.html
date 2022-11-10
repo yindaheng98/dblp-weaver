@@ -30,75 +30,7 @@
 
     <script type="text/javascript" src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/echarts@5.3.3/dist/echarts.min.js"></script>
-    <script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript" src="summary.js"></script>
-
-    <script type="text/javascript">
-        var nodes = null;
-        var edges = null;
-        var network = null;
-
-        function draw() {
-
-            // Instantiate our network object.
-            var container = document.getElementById("network");
-            var options = {
-                title: {
-                    text: 'Ranking'
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    }
-                },
-                grid: {
-                    left: '20%',
-                },
-                xAxis: { type: 'value' },
-                yAxis: {
-                    type: 'category',
-                    data: ranking_data.label
-                },
-                dataZoom: [
-                    {
-                        type: 'inside',
-                        yAxisIndex: 0,
-                        filterMode: 'none'
-                    }
-                ],
-                series: [
-                    {
-                        type: 'bar',
-                        data: ranking_data.data
-                    },
-                ]
-            };
-            ranking = echarts.init(container);
-            ranking.setOption(options);
-            ranking.on("click", function (properties) {
-                id = ranking_data.id[properties.dataIndex]
-                text = get_pub_text(id, person_data, pub_data)
-                document.getElementById("publications").innerText = text
-            });
-
-            ccfpie = echarts.init(document.getElementById("ccfpie"));
-            conpie = echarts.init(document.getElementById("conpie"));
-            line = echarts.init(document.getElementById("line"));
-            ranking.on("click", function (properties) {
-                id = ranking_data.id[properties.dataIndex]
-                ccfpie.setOption(get_ccfpie_option(id, ccfpie_data))
-                conpie.setOption(get_conpie_option(id, conpie_data))
-                line.setOption(get_line_option(id, line_data))
-            });
-
-            var person_raw_data;
-            ranking.on("click", function (properties) {
-                id = ranking_data.id[properties.dataIndex]
-                person_raw_data = get_person_raw_data(id, raw_data)
-            });
-        }
-    </script>
 </head>
 
 <body onload="draw()">
@@ -114,5 +46,62 @@
         <div id="publications"></div>
     </div>
 </body>
+
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+    var nodes = null;
+    var edges = null;
+    var network = null;
+
+    function draw() {
+
+        // Instantiate our network object.
+        var container = document.getElementById("network");
+        var options = {
+            title: {
+                text: 'Ranking'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            grid: {
+                left: '20%',
+            },
+            xAxis: { type: 'value' },
+            yAxis: {
+                type: 'category',
+                data: ranking_data.label
+            },
+            dataZoom: [
+                {
+                    type: 'inside',
+                    yAxisIndex: 0,
+                    filterMode: 'none'
+                }
+            ],
+            series: [
+                {
+                    type: 'bar',
+                    data: ranking_data.data
+                },
+            ]
+        };
+        ranking = echarts.init(container);
+        ranking.setOption(options);
+        ranking.on("click", function (properties) {
+            id = ranking_data.id[properties.dataIndex]
+            change_person(id)
+        });
+
+        var person_raw_data;
+        ranking.on("click", function (properties) {
+            id = ranking_data.id[properties.dataIndex]
+            person_raw_data = get_person_raw_data(id, raw_data)
+        });
+    }
+</script>
 
 </html>
