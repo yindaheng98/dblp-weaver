@@ -19,6 +19,7 @@ def stat(data):  # d = data['nodes'][0]['data']或data['edges'][0]['data']
         ccf_count=ccf_count,
         journal_count=journal_count,
         year_count=year_count,
+        raw_data=data['detail'],
     )
     return data
 
@@ -127,6 +128,11 @@ def export_pub_data(data):
     return pub_data
 
 
+def export_raw_data(data):
+    raw_data = {n['id']: n['data']['detail']['raw_data'] for n in data['nodes']}
+    return raw_data
+
+
 import numpy as np
 
 
@@ -154,6 +160,7 @@ with open("statistic.json", 'r', encoding='utf8') as fr:
     ccfpie_data = export_ccfpie_data(j)
     conpie_data = export_conpie_data(j)
     line_data = export_line_data(j)
+    raw_data = export_raw_data(j)
     ranking_data = export_ranking_data(j)
     with open("summary.js", 'w', encoding='utf8') as fw:
         fw.write("let data = " + json.dumps(graph_data, indent=2) + ";\n")
@@ -162,4 +169,5 @@ with open("statistic.json", 'r', encoding='utf8') as fr:
         fw.write("let ccfpie_data = " + json.dumps(ccfpie_data, indent=2) + ";\n")
         fw.write("let conpie_data = " + json.dumps(conpie_data, indent=2) + ";\n")
         fw.write("let line_data = " + json.dumps(line_data, indent=2) + ";\n")
+        fw.write("let raw_data = " + json.dumps(raw_data, indent=2) + ";\n")
         fw.write("let ranking_data = " + json.dumps(ranking_data, indent=2) + ";\n")
