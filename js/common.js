@@ -95,27 +95,17 @@ function change_person(id) {
     journals = conpie_data[id].map(function (i) { return i['name'] })
 }
 
-function search_person_cat_data(years, ccfs, journals, person_cat_data) {
-    d = {}
-    for (year of years) {
-        d[year] = {}
-        for (ccf of ccfs) {
-            d[year][ccf] = {}
-            if (person_cat_data[year][ccf])
-                for (journal of journals) {
-                    if (person_cat_data[year][ccf][journal])
-                        d[year][ccf][journal] = person_cat_data[year][ccf][journal]
-                }
-        }
-    }
-    return d
-}
-
-function show_person_cat_data(person_cat_data) {
+function show_person_cat_data(years, ccfs, journals, person_cat_data) {
     text = ''
-    for (year in person_cat_data) {
-        for (ccf in person_cat_data[year]) {
-            for (journal in person_cat_data[year][ccf]) {
+    for (year of years.slice().reverse()) {
+        if (!person_cat_data[year])
+            continue
+        for (ccf of ccfs) {
+            if (!person_cat_data[year][ccf])
+                continue
+            for (journal of journals) {
+                if (!person_cat_data[year][ccf][journal])
+                    continue
                 text += year + ', (CCF ' + ccf + ') ' + journal + "\n\n"
                 text += person_cat_data[year][ccf][journal].join('\n\n') + "\n\n"
             }
@@ -125,11 +115,11 @@ function show_person_cat_data(person_cat_data) {
 }
 
 ccfpie.on("click", function (properties) {
-    pub.innerText = show_person_cat_data(search_person_cat_data(years, [properties.name], journals, person_cat_data))
+    pub.innerText = show_person_cat_data(years, [properties.name], journals, person_cat_data)
 });
 conpie.on("click", function (properties) {
-    pub.innerText = show_person_cat_data(search_person_cat_data(years, ccfs, [properties.name], person_cat_data))
+    pub.innerText = show_person_cat_data(years, ccfs, [properties.name], person_cat_data)
 });
 line.on("click", function (properties) {
-    pub.innerText = show_person_cat_data(search_person_cat_data([properties.name], properties.seriesId, journals, person_cat_data))
+    pub.innerText = show_person_cat_data([properties.name], properties.seriesId, journals, person_cat_data)
 });

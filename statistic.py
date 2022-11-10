@@ -98,8 +98,11 @@ def export_conpie_data(data):
     for n in data['nodes']:
         d = []
         for ccf in ['A', 'B', 'C']:
+            d_ccf = []
             for journal, journal_count in n['data']['detail']['journal_count'][ccf].items():
-                d.append(dict(name=journal, value=journal_count))
+                d_ccf.append(dict(name=journal, value=journal_count))
+            d_ccf.sort(key=lambda x: x['value'], reverse=True)
+            d.extend(d_ccf)
         conpie_data[n['id']] = d
     return conpie_data
 
