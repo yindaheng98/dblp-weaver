@@ -9,12 +9,13 @@ def stat(data):  # d = data['nodes'][0]['data']或data['edges'][0]['data']
     journal_count = {ccf: {} for ccf in ccf_count}
     year_count = {year: {ccf: 0 for ccf in ccf_count} for year in years_to_be_stat}
     for k, pub in data['detail'].items():
+        if pub["year"] not in year_count:
+            continue
         if pub["journal"] not in journal_count[pub["CCF"]]:
             journal_count[pub["CCF"]][pub["journal"]] = 0
         journal_count[pub["CCF"]][pub["journal"]] += 1
-        if pub["year"] in year_count:
-            year_count[pub["year"]][pub["CCF"]] += 1
-            ccf_count[pub["CCF"]] += 1
+        year_count[pub["year"]][pub["CCF"]] += 1
+        ccf_count[pub["CCF"]] += 1
     data['detail'] = dict(
         ccf_count=ccf_count,
         journal_count=journal_count,
