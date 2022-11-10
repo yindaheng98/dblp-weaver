@@ -101,20 +101,35 @@ function search_person_cat_data(years, ccfs, journals, person_cat_data) {
         d[year] = {}
         for (ccf of ccfs) {
             d[year][ccf] = {}
-            for (journal of journals) {
-                d[year][ccf][journal] = person_cat_data[year][ccf][journal]
-            }
+            if (person_cat_data[year][ccf])
+                for (journal of journals) {
+                    if (person_cat_data[year][ccf][journal])
+                        d[year][ccf][journal] = person_cat_data[year][ccf][journal]
+                }
         }
     }
     return d
 }
 
+function show_person_cat_data(person_cat_data) {
+    text = ''
+    for (year in person_cat_data) {
+        for (ccf in person_cat_data[year]) {
+            for (journal in person_cat_data[year][ccf]) {
+                text += year + ', (CCF ' + ccf + ') ' + journal + "\n\n"
+                text += person_cat_data[year][ccf][journal].join('\n\n') + "\n\n"
+            }
+        }
+    }
+    return text
+}
+
 ccfpie.on("click", function (properties) {
-    pub.innerText = search_person_cat_data(years, [properties.name], journals, person_cat_data)
+    pub.innerText = show_person_cat_data(search_person_cat_data(years, [properties.name], journals, person_cat_data))
 });
 conpie.on("click", function (properties) {
-    pub.innerText = search_person_cat_data(years, ccfs, [properties.name], person_cat_data)
+    pub.innerText = show_person_cat_data(search_person_cat_data(years, ccfs, [properties.name], person_cat_data))
 });
 line.on("click", function (properties) {
-    pub.innerText = search_person_cat_data([properties.name], properties.seriesId, journals, person_cat_data)
+    pub.innerText = show_person_cat_data(search_person_cat_data([properties.name], properties.seriesId, journals, person_cat_data))
 });
