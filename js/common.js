@@ -66,7 +66,8 @@ function get_line_option(id, line_data) {
     }
 }
 function get_pub_text(id, person_data, pub_data) {
-    return person_data[id] + "\n\n" + pub_data[id].join('\n\n')
+    text = person_data[id] + "\n\n" + pub_data[id].join('\n\n')
+    return text.replaceAll('\n', '<br>').replaceAll('\t', '&emsp;')
 }
 
 function get_person_cat_data(id, cat_data) {
@@ -87,7 +88,7 @@ function change_person(id) {
     ccfpie.setOption(get_ccfpie_option(id, ccfpie_data))
     conpie.setOption(get_conpie_option(id, conpie_data))
     line.setOption(get_line_option(id, line_data))
-    pub.innerText = get_pub_text(id, person_data, pub_data)
+    pub.innerHTML = get_pub_text(id, person_data, pub_data)
 
     person_cat_data = cat_data[id]
     years = line_data[id].years
@@ -106,20 +107,20 @@ function show_person_cat_data(years, ccfs, journals, person_cat_data) {
             for (journal of journals) {
                 if (!person_cat_data[year][ccf][journal])
                     continue
-                text += year + ', (CCF ' + ccf + ') ' + journal + "\n\n"
+                text += '<b>' + year + ', (CCF ' + ccf + ') ' + journal + "</b>\n\n"
                 text += person_cat_data[year][ccf][journal].join('\n\n') + "\n\n"
             }
         }
     }
-    return text
+    return text.replaceAll('\n', '<br>').replaceAll('\t', '&emsp;')
 }
 
 ccfpie.on("click", function (properties) {
-    pub.innerText = show_person_cat_data(years, [properties.name], journals, person_cat_data)
+    pub.innerHTML = show_person_cat_data(years, [properties.name], journals, person_cat_data)
 });
 conpie.on("click", function (properties) {
-    pub.innerText = show_person_cat_data(years, ccfs, [properties.name], person_cat_data)
+    pub.innerHTML = show_person_cat_data(years, ccfs, [properties.name], person_cat_data)
 });
 line.on("click", function (properties) {
-    pub.innerText = show_person_cat_data([properties.name], properties.seriesId, journals, person_cat_data)
+    pub.innerHTML = show_person_cat_data([properties.name], properties.seriesId, journals, person_cat_data)
 });
