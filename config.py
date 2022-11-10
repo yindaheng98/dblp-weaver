@@ -1,25 +1,31 @@
+from sets import vips_ai, vips_app, normal, others, pure_sota
+
+vips = vips_ai.union(vips_app)
+
 years_to_be_stat = list(range(2016, 2023))
 
 
-def is_noob(data):
-    year_count = data['detail']["year_count"]
+def is_noob(node):
+    if node["id"] in vips:
+        return False
+    year_count = node['data']['detail']["year_count"]
     return year_count["2022"]['A'] + year_count["2021"]['A'] + year_count["2020"]['A'] < 16
 
 
-def is_weak(data):
-    year_count = data['detail']["year_count"]
+def is_weak(edge):
+    if edge["from"] in vips or edge["to"] in vips:
+        return False
+    year_count = edge['data']['detail']["year_count"]
     return year_count["2022"]['A'] + year_count["2021"]['A'] + year_count["2020"]['A'] < 3
 
 
 def node_value(node):
-    return node['data']['detail']['ccf_count']['A']
+    return len(node['data']["publications"])
 
 
 def edge_value(edge):
     return edge['data']['detail']['ccf_count']['A']
 
-
-from sets import vips_ai, vips_app, normal, others, pure_sota
 
 colors = {
     'red': vips_ai.union(vips_app),

@@ -61,7 +61,7 @@ def drop_noob(data):
     nodes = []
     drop_nodes = set()
     for n in data['nodes']:
-        if is_noob(n["data"]):
+        if is_noob(n):
             drop_nodes.add(n["id"])
         else:
             nodes.append(n)
@@ -69,7 +69,7 @@ def drop_noob(data):
     for e in data['edges']:
         if e['from'] in drop_nodes or e['to'] in drop_nodes:
             pass
-        elif is_weak(e["data"]):
+        elif is_weak(e):
             pass
         else:
             edges.append(e)
