@@ -20,7 +20,7 @@ def is_weak(edge):
 
 
 def node_value(node):
-    return len(node['data']["publications"])
+    return node['data']['detail']['ccf_count']['A']
 
 
 def edge_value(edge):
@@ -39,8 +39,7 @@ def node_color(node):
         if node['id'] in who:
             return color
     for pub in node['data']['publications']:
-        for kw in important_keywords:
-            if re.search(kw, pub) is not None:
-                return 'rgb(255,69,0)'
+        if important_keywords.match(pub):
+            return 'rgb(255,69,0)'
     if len(node['data']['publications']) < 2:  # 透明掉相关文章数小于2的
         return 'rgba(97,195,238,0.2)'

@@ -20,7 +20,7 @@ keywords.add_rule_list(
                   {"attack", "attacking",
                    "robust", "robustness",
                    "example", "examples", })),
-    {"communication", "efficient", "distributed"},
+    {"communication", "efficient", "distributed", "distribute", "distribution"},
 )
 
 if __name__ == "__main__":

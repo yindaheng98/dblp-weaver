@@ -158,6 +158,7 @@ blacklist = {
     r".* workshop[s]*"
 }
 
-important_keywords = {
-    r"\w*live\w*",
-}
+from dblp_crawler.keyword import Keywords
+
+important_keywords = Keywords()
+important_keywords.add_word_rules("live", "collaborative", "distributed", "distribute", "distribution")
