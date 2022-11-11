@@ -39,6 +39,7 @@ vips_app = {
     # 多媒体
     'l/JiangchuanLiu',  # Simon Fraser University Jiangchuan (JC) LIU
     '97/6308-1',  # 清华大学 朱文武
+    '312/6561',  # 港中文 Jianwei Huang
     # 边缘计算
     '142/0351',  # 港中文 Fangxin Wang 21年刚招生
 }
@@ -49,6 +50,8 @@ normal = {
     'c/GuohongCao',  # Guohong Cao,宾夕法尼亚州立大学
     '21/1550-1',  # 女教授
     '33/4854-1',  # 悉尼大学
+    '84/8277',  # 京东
+    '155/3173',  # 海康威视
     # 北大 数字视频编解码技术国家工程实验室
     'g/WenGao',  # 实验室主任 北大 高文院士
     '38/559',  # 北大刘云淮
