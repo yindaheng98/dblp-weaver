@@ -2,8 +2,8 @@ from itertools import product
 from dblp_crawler import *
 from dblp_crawler.data import CCF_A
 from dblp_crawler.keyword import *
+from sets import vips, blacklist
 from example import main
-from main import blacklist
 
 keywords = Keywords()
 keywords.add_word_rules(
@@ -33,6 +33,6 @@ if __name__ == "__main__":
         paper_path="papers_optimization.txt",
         keywords=keywords,
         blacklist=blacklist,
-        pid_list=[],
+        pid_list=vips,
         journal_list=CCF_A
     ))

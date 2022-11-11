@@ -1,6 +1,4 @@
-from sets import vips_ai, vips_app, normal, others, pure_sota
-
-vips = vips_ai.union(vips_app)
+from sets import vips, normal, others, pure_sota
 
 years_to_be_stat = list(range(2016, 2023))
 
@@ -28,7 +26,7 @@ def edge_value(edge):
 
 
 colors = {
-    'red': vips_ai.union(vips_app),
+    'red': vips,
     'green': normal,
     'rgba(192,192,192,0.5)': others.union(pure_sota)
 }

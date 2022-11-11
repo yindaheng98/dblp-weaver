@@ -3,6 +3,7 @@ from itertools import product
 from dblp_crawler import *
 from dblp_crawler.data import CCF_A
 from dblp_crawler.keyword import *
+from sets import vips, blacklist
 from example import main
 
 # 视频的关键词
@@ -64,26 +65,6 @@ keywords.add_rule_list(
 )
 keywords.add_word_rules('hdr', 'uhd', "VSR")
 
-blacklist = [
-    "CVPR Workshops"
-]
-
-init = [
-    # 港中文、港大、南阳理工 多媒体联合实验室 http: // mmlab.ie.cuhk.edu.hk/people.html
-    '54/4989-2',  # 香港大学 罗平 http://luoping.me
-    '01/5855',  # 南洋理工 吕健勤 模型研究方向
-    '16/1278',  # 中科院深圳先进技术研究所 董超, 2016年博士毕业 http://xpixel.group/people.html
-
-    '91/6236-1',  # 港中文 Xiaogang Wang
-
-    # 待整理
-    '142/0351',  # 港中文深圳 Fangxin Wang https://mypage.cuhk.edu.cn/academics/wangfangxin/index.html
-    '78/1467-1',  # 华为 Qi Tian
-    'q/YuQiao1',  # Yu Qiao
-    # 清华大学深圳研究院
-    '74/1552-1',  # 清深 江勇
-    '95/6543',  # 清华 王智
-]
 
 if __name__ == "__main__":
     import logging
@@ -95,6 +76,6 @@ if __name__ == "__main__":
         paper_path="papers.txt",
         keywords=keywords,
         blacklist=blacklist,
-        pid_list=init,
+        pid_list=vips,
         journal_list=CCF_A
     ))
