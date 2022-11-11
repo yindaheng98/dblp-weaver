@@ -1,4 +1,6 @@
-from sets import vips, normal, others, pure_sota
+import re
+
+from sets import vips, normal, others, pure_sota, important_keywords
 
 years_to_be_stat = list(range(2016, 2023))
 
@@ -14,7 +16,7 @@ def is_weak(edge):
     if edge["from"] in vips or edge["to"] in vips:
         return False
     year_count = edge['data']['detail']["year_count"]
-    return year_count["2022"]['A'] + year_count["2021"]['A'] + year_count["2020"]['A'] < 3
+    return year_count["2022"]['A'] + year_count["2021"]['A'] + year_count["2020"]['A'] < 2
 
 
 def node_value(node):
@@ -36,5 +38,9 @@ def node_color(node):
     for color, who in colors.items():
         if node['id'] in who:
             return color
+    for pub in node['data']['publications']:
+        for kw in important_keywords:
+            if re.search(kw, pub) is not None:
+                return 'rgb(255,69,0)'
     if len(node['data']['publications']) < 2:  # 透明掉相关文章数小于2的
         return 'rgba(97,195,238,0.2)'
