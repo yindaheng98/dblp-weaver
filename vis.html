@@ -66,8 +66,8 @@
                 id = nodes.get(properties.nodes)[0].id
                 change_person(id)
             } else if (properties.edges.length > 0) {
-                let e = edges.get(properties.edges)[0]
-                text = e.data.publications.join('\n\n')
+                id = edges.get(properties.edges)[0].id
+                change_person(id)
             }
             document.getElementById("publications").innerText = text
         });

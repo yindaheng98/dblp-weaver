@@ -44,7 +44,9 @@ def stat_all(data):
         node['category'] = cat(node['data'])
         node['data'] = stat(node['data'])
     for edge in data['edges']:
+        edge['category'] = cat(edge['data'])
         edge['data'] = stat(edge['data'])
+        edge['id'] = edge['from'] + ' ' + edge['to']
     return data
 
 
@@ -87,14 +89,14 @@ print("正在转换成vis数据")
 
 def export_ccfpie_data(data):
     ccfpie_data = {}
-    for n in data['nodes']:
+    for n in data['nodes'] + data['edges']:
         ccfpie_data[n['id']] = [dict(name=ccf, value=n['data']['detail']['ccf_count'][ccf]) for ccf in ccf_to_be_stat]
     return ccfpie_data
 
 
 def export_conpie_data(data):
     conpie_data = {}
-    for n in data['nodes']:
+    for n in data['nodes'] + data['edges']:
         d = []
         for ccf in ccf_to_be_stat:
             d_ccf = []
@@ -108,7 +110,7 @@ def export_conpie_data(data):
 
 def export_line_data(data):
     line_data = {}
-    for n in data['nodes']:
+    for n in data['nodes'] + data['edges']:
         d = {ccf: [] for ccf in ccf_to_be_stat}
         for year in years_to_be_stat:
             for ccf in ccf_to_be_stat:
@@ -126,6 +128,7 @@ def export_graph_data(data):
         })
     for e in data['edges']:
         graph_data['edges'].append({
+            'id': e['id'],
             'from': e['from'], 'to': e['to'], 'value': edge_value(e),
             'data': {'publications': e['data']['publications']}
         })
@@ -134,16 +137,17 @@ def export_graph_data(data):
 
 def export_person_data(data):
     person_data = {n['id']: n['data']['person'] for n in data['nodes']}
-    return person_data
+    cooper_data = {e['id']: person_data[e['from']] + '\n\n' + person_data[e['to']] for e in data['edges']}
+    return {**person_data, **cooper_data}
 
 
 def export_pub_data(data):
-    pub_data = {n['id']: n['data']['publications'] for n in data['nodes']}
+    pub_data = {n['id']: n['data']['publications'] for n in data['nodes'] + data['edges']}
     return pub_data
 
 
 def export_cat_data(data):
-    cat_data = {n['id']: n['category'] for n in data['nodes']}
+    cat_data = {n['id']: n['category'] for n in data['nodes'] + data['edges']}
     return cat_data
 
 
