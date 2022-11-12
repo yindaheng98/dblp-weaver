@@ -15,7 +15,11 @@ def is_weak(edge):
     if edge["from"] in vips or edge["to"] in vips:
         return False
     year_count = edge['data']['detail']["year_count"]
-    return year_count["2022"]['A'] + year_count["2021"]['A'] + year_count["2020"]['A'] < 2
+    return sum([
+        sum(year_count["2022"].values()),
+        sum(year_count["2021"].values()),
+        sum(year_count["2020"].values()),
+    ]) < 4
 
 
 def node_value(node):
@@ -23,7 +27,7 @@ def node_value(node):
 
 
 def edge_value(edge):
-    return edge['data']['detail']['ccf_count']['A']
+    return sum(edge['data']['detail']['ccf_count'].values())
 
 
 colors = {
