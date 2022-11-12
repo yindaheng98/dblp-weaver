@@ -1,8 +1,7 @@
-import re
-
 from sets import vips, normal, others, pure_sota, important_keywords
 
 years_to_be_stat = list(range(2016, 2023))
+ccf_to_be_stat = ['A', 'B', 'C', 'N']
 
 
 def is_noob(node):

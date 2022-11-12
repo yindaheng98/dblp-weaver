@@ -38,7 +38,7 @@ function get_line_option(id, line_data) {
             axisTick: {
                 alignWithLabel: true
             },
-            data: line_data[id].years,
+            data: line_data.years,
         },
         yAxis: {
             name: '论文数'
@@ -47,19 +47,25 @@ function get_line_option(id, line_data) {
             {
                 name: "CCF A",
                 id: "A",
-                data: line_data[id].A,
+                data: line_data.data[id].A,
                 type: 'line',
             },
             {
                 name: "CCF B",
                 id: "B",
-                data: line_data[id].B,
+                data: line_data.data[id].B,
                 type: 'line',
             },
             {
                 name: "CCF C",
                 id: "C",
-                data: line_data[id].C,
+                data: line_data.data[id].C,
+                type: 'line',
+            },
+            {
+                name: "CCF N",
+                id: "N",
+                data: line_data.data[id].N,
                 type: 'line',
             }
         ]
@@ -91,7 +97,7 @@ function change_person(id) {
     pub.innerHTML = get_pub_text(id, person_data, pub_data)
 
     person_cat_data = cat_data[id]
-    years = line_data[id].years
+    years = line_data.years
     ccfs = ccfpie_data[id].map(function (i) { return i['name'] })
     journals = conpie_data[id].map(function (i) { return i['name'] })
 }

@@ -1,11 +1,11 @@
 import json
-from config import years_to_be_stat, is_noob, is_weak, node_value, edge_value, node_color
+from config import years_to_be_stat, ccf_to_be_stat, is_noob, is_weak, node_value, edge_value, node_color
 
 print("正在统计")
 
 
-def stat(data):  # d = data['nodes'][0]['data']或data['edges'][0]['data']
-    ccf_count = {'A': 0, 'B': 0, 'C': 0, 'N': 0}
+def stat(data):
+    ccf_count = {ccf: 0 for ccf in ccf_to_be_stat}
     journal_count = {ccf: {} for ccf in ccf_count}
     year_count = {year: {ccf: 0 for ccf in ccf_count} for year in years_to_be_stat}
     for k, pub in data['detail'].items():
@@ -88,11 +88,7 @@ print("正在转换成vis数据")
 def export_ccfpie_data(data):
     ccfpie_data = {}
     for n in data['nodes']:
-        ccfpie_data[n['id']] = [
-            dict(name='A', value=n['data']['detail']['ccf_count']['A']),
-            dict(name='B', value=n['data']['detail']['ccf_count']['B']),
-            dict(name='C', value=n['data']['detail']['ccf_count']['C']),
-        ]
+        ccfpie_data[n['id']] = [dict(name=ccf, value=n['data']['detail']['ccf_count'][ccf]) for ccf in ccf_to_be_stat]
     return ccfpie_data
 
 
@@ -100,7 +96,7 @@ def export_conpie_data(data):
     conpie_data = {}
     for n in data['nodes']:
         d = []
-        for ccf in ['A', 'B', 'C']:
+        for ccf in ccf_to_be_stat:
             d_ccf = []
             for journal, journal_count in n['data']['detail']['journal_count'][ccf].items():
                 d_ccf.append(dict(name=journal, value=journal_count))
@@ -113,13 +109,12 @@ def export_conpie_data(data):
 def export_line_data(data):
     line_data = {}
     for n in data['nodes']:
-        d = {'A': [], 'B': [], 'C': [], 'years': years_to_be_stat}
+        d = {ccf: [] for ccf in ccf_to_be_stat}
         for year in years_to_be_stat:
-            d['A'].append(n['data']['detail']['year_count'][str(year)]['A'])
-            d['B'].append(n['data']['detail']['year_count'][str(year)]['B'])
-            d['C'].append(n['data']['detail']['year_count'][str(year)]['C'])
+            for ccf in ccf_to_be_stat:
+                d[ccf].append(n['data']['detail']['year_count'][str(year)][ccf])
         line_data[n['id']] = d
-    return line_data
+    return dict(data=line_data, years=years_to_be_stat)
 
 
 def export_graph_data(data):
