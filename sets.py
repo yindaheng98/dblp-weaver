@@ -38,10 +38,13 @@ vips_app = {
     '165/784',  # 香港中文大学 Qi DOU
     # 多媒体
     'l/JiangchuanLiu',  # Simon Fraser University Jiangchuan (JC) LIU
+    'l/BaochunLi',  # 多伦多大学 Baochun Li
     '97/6308-1',  # 清华大学 朱文武
     '312/6561',  # 港中文 Jianwei Huang
     # 边缘计算
     '142/0351',  # 港中文 Fangxin Wang 21年刚招生
+    # 实时视频流
+    '06/2128',  # 孙立峰 清华大学计算机科学与技术系，视频传输
 }
 vips = vips_ai.union(vips_app)
 normal = {
@@ -152,7 +155,6 @@ others = {
     # 北大 数字视频编解码技术国家工程实验室
     '02/894', 's/JunSun12', '02/2683', '32/197', 'd/LingyuDuan',
     '38/2763',  # 清华 王生进 机器视觉机器人
-    '06/2128',  # 孙立峰 清华大学计算机科学与技术系，视频传输
     '58/5750-1'  # 博士平均毕业时间》=6年
     '59/1007',  # 推荐系统
 }
@@ -164,4 +166,7 @@ blacklist = {
 from dblp_crawler.keyword import Keywords
 
 important_keywords = Keywords()
-important_keywords.add_word_rules("live", "collaborative", "distributed", "distribute", "distribution")
+important_keywords.add_word_rules(
+    "live", "livecast", "livecasting",
+    "collaborative",
+    "distributed", "distribute", "distribution")

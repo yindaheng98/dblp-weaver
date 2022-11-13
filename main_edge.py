@@ -6,11 +6,7 @@ from example import main
 
 # 视频的关键词
 keywords = Keywords()
-keywords.add_word_rules(
-    "video", "live", "livecast", "livecasting", "crowdcast", "crowdcasting",
-    "resolution", "360", "vr", "camera", "hdr", 'uhd', "VSR", "multimedia",
-    "stream", "streaming",
-)
+keywords.add_word_rules("edge")
 
 if __name__ == "__main__":
     import logging
@@ -18,8 +14,8 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main(
-        summary_path="summary_video.json",
-        paper_path="papers_video.txt",
+        summary_path="summary_edge.json",
+        paper_path="papers_edge.txt",
         keywords=keywords,
         blacklist=blacklist,
         pid_list=vips,
