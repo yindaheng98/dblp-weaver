@@ -34,6 +34,7 @@ vips_app = {
     '82/6362-1',  # 香港科技大学 Qiang Yang
     'c/LeiChen0002',  # 香港科技大学 Lei CHEN
     '06/4171',  # 香港中文大学 James Cheng
+    '181/2839',  # 香港科技大学 Kai Chen
     # 交叉
     '165/784',  # 香港中文大学 Qi DOU
     # 多媒体
@@ -41,12 +42,22 @@ vips_app = {
     'l/BaochunLi',  # 多伦多大学 Baochun Li
     '97/6308-1',  # 清华大学 朱文武
     '312/6561',  # 港中文 Jianwei Huang
+    'c/KwangTingCheng',  # 香港科技大学 Kwang-Ting (Tim) Cheng
+    '55/3521',  # 清华大学 刘云新
     # 边缘计算
     '142/0351',  # 港中文 Fangxin Wang 21年刚招生
+    '48/4914',  # 港中文 Shuguang Cui 研究院FNii的leader https://fnii.cuhk.edu.cn/
+    '73/8637',  # 北邮 Shangguang Wang
+    'c/JiannongCao',  # 香港理工 Jiannong Cao
+    '181/2839',  # 香港科技 Kai Chen
     # 实时视频流
     '06/2128',  # 孙立峰 清华大学计算机科学与技术系，视频传输
 }
 vips = vips_ai.union(vips_app)
+vips_thu = {  # 清华的
+    "67/3001",  # 杨广文, 高性能计算
+    "51/3710-5",  # 刘洋, NLP的
+}
 normal = {
     # 边缘计算+视频
     'w/JieWu1',  # 吴杰 Temple University 吴杰教授是中国计算机学会海外杰出贡献奖获得者,跟国内各大高校都有密切的合作关系
