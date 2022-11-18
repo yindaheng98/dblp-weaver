@@ -32,7 +32,6 @@ vips_app = {
     '49/8398',  # 芝加哥大学 Junchen Jiang
     # 分布式机器学习理论
     '82/6362-1',  # 香港科技大学 Qiang Yang
-    'c/LeiChen0002',  # 香港科技大学 Lei CHEN
     '06/4171',  # 香港中文大学 James Cheng
     '181/2839',  # 香港科技大学 Kai Chen
     # 交叉
@@ -107,7 +106,6 @@ normal = {
     '39/8969',  # IBM的
     '94/7236',  # 美国的
     '98/4156',  # 杭州科技
-    'c/LeiChen0002',  # 香港科技大学 Lei CHEN, 不招博士了好像
     '12/5444-1',  # 京东的
     '12/5444-1',  # 牛津
     '38/5435',  # 北理工
@@ -186,6 +184,7 @@ others = {
     'y/JXuYu',  # 香港中文大学 Jeffrey Xu Yu, 于旭
     'm/ChunyanMiao',  # 南洋理工 Chunyan Miao
     '94/1128',
+    'c/LeiChen0002',  # 香港科技 Lei Chen
     # 水
     '181/2834',
 }
