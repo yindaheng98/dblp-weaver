@@ -1,16 +1,15 @@
+from itertools import product
+
 from dblp_crawler import *
 from dblp_crawler.data import CCF_A
 from dblp_crawler.keyword import *
-from sets import vips, blacklist
+from sets import vips, blacklist, video_kw, video_kw2
 from example import main
 
 # 视频的关键词
 keywords = Keywords()
-keywords.add_word_rules(
-    "video", "live", "livecast", "livecasting", "crowdcast", "crowdcasting",
-    "resolution", "360", "vr", "camera", "hdr", 'uhd', "VSR", "multimedia",
-    "stream", "streaming",
-)
+keywords.add_word_rules(*video_kw)
+keywords.add_rule_list(*list(product(*video_kw2)))
 
 if __name__ == "__main__":
     import logging

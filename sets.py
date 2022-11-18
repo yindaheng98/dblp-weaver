@@ -52,6 +52,7 @@ vips_app = {
     '181/2839',  # 香港科技 Kai Chen
     # 实时视频流
     '06/2128',  # 孙立峰 清华大学计算机科学与技术系，视频传输
+    '91/2346-1',  # 崔勇 清华大学计算机科学与技术系
 }
 vips = vips_ai.union(vips_app)
 vips_thu = {  # 清华的
@@ -174,10 +175,46 @@ blacklist = {
     r".* workshop[s]*"
 }
 
+# 视频的关键词
+video_kw = {
+    "video", "live", "livecast", "livecast", "crowdcast", "crowdcasting",
+    "vision", "visual", "resolution", "streaming",
+    "360", "vr", "ar", "camera", "hdr", 'uhd', "VSR"
+}
+video_kw2 = [{"augmented", "augment", "virtual"}, {"reality"}]
+
+# 超分的关键词
+sr_kw = {"denoise", "denoising", "deblur", "deblurring", "dehaze", "dehazing", "restoration", "restore", "restoring",
+         "interpolation", "interpolate", "inpaint", "inpainting"}
+sr_kw2 = [{"super", "neural", "video"}, {"resolution", "enhance", "enhancement"}]
+
+# 优化的关键词
+opti_kw = {
+    "accelerate", "accelerated", "acceleration", "accelerator",
+    "quantize", "quantization",
+    "compress", "compression", "compressive",
+    "normalization", "normalize",
+    "binarization", "binarize", "binarized", "binary",
+    "QAT", "PTQ",
+    "tune", "tuning",
+}
+opti_kw2 = [{"real"}, {"time"}]
+
+# 模型稳定性的关键词
+robust_kw2 = [{"adversarially", "adversarial"},
+              {"attack", "attacking",
+               "robust", "robustness",
+               "example", "examples", }]
+# 分布式计算的关键词
+distri_kw = {"distributed", "distribute", "distribution", "parallel", "compute", "computing"}
+distri_kw2 = [{"communication"}, {"efficient"}]
+
+# 边缘的关键词
+edge_kw = {'mec', 'edge', 'in-network', "fog", "mobile", 'offload', 'offloading', "accelerate", "acceleration"}
+
 from dblp_crawler.keyword import Keywords
 
 important_keywords = Keywords()
 important_keywords.add_word_rules(
     "live", "livecast", "livecasting",
-    "collaborative",
-    "distributed", "distribute", "distribution")
+    "collaborative", "fog")

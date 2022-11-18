@@ -2,25 +2,15 @@ from itertools import product
 from dblp_crawler import *
 from dblp_crawler.data import CCF_A
 from dblp_crawler.keyword import *
-from sets import vips, blacklist
+from sets import vips, blacklist, distri_kw, distri_kw2, opti_kw, opti_kw2, robust_kw2
 from example import main
 
 keywords = Keywords()
-keywords.add_word_rules(
-    "accelerate", "accelerated", "acceleration", "accelerator",
-    "quantize", "quantization",
-    "compress", "compression", "compressive",
-    "normalization", "normalize",
-    "binarization", "binarize", "binarized", "binary",
-    "QAT", "PTQ",
-    "tune", "tuning",
-)
+keywords.add_word_rules(*opti_kw, *distri_kw)
 keywords.add_rule_list(
-    *list(product({"adversarially", "adversarial"},
-                  {"attack", "attacking",
-                   "robust", "robustness",
-                   "example", "examples", })),
-    {"communication", "efficient", "distributed", "distribute", "distribution"},
+    *list(product(*robust_kw2)),
+    *list(product(*distri_kw2)),
+    *list(product(*opti_kw2)),
 )
 
 if __name__ == "__main__":
