@@ -210,11 +210,10 @@ distri_kw = {"distributed", "distribute", "distribution", "parallel", "compute",
 distri_kw2 = [{"communication"}, {"efficient"}]
 
 # 边缘的关键词
-edge_kw = {'mec', 'edge', 'in-network', "fog", "mobile", 'offload', 'offloading', "accelerate", "acceleration"}
+edge_kw = {'mec', 'edge', 'in-network', "fog", 'offload', 'offloaded', 'offloading'}
+edge_kw2 = [{'mobile'}, {"accelerate", "acceleration"}]
 
 from dblp_crawler.keyword import Keywords
 
 important_keywords = Keywords()
-important_keywords.add_word_rules(
-    "live", "livecast", "livecasting",
-    "collaborative", "fog")
+important_keywords.add_word_rules("live", "livecast", "livecasting", "fog")

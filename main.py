@@ -3,7 +3,7 @@ from itertools import product
 from dblp_crawler import *
 from dblp_crawler.data import CCF_A
 from dblp_crawler.keyword import *
-from sets import vips, blacklist, video_kw, video_kw2, sr_kw, sr_kw2, opti_kw, opti_kw2, edge_kw
+from sets import vips, blacklist, video_kw, video_kw2, sr_kw, sr_kw2, opti_kw, opti_kw2, edge_kw, edge_kw2
 from example import main
 
 # 模型的关键词
@@ -33,6 +33,7 @@ keywords.add_rule_list(
     *list(product(video_kw, proc_kw)),
     *list(product(video_kw, app_kw)),
     *list(product(video_kw, edge_kw)),
+    *list(product(video_kw, *edge_kw2)),
     *list(combinations(video_kw, 2)),
     *list(product(video_kw, {'content', 'quality'}, {"aware"})),
     *list(product(video_kw, {'super'}, {'resolution'})),
