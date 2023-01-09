@@ -50,18 +50,26 @@
         // Instantiate our network object.
         var container = document.getElementById("network");
         network = ForceGraph3D()(document.getElementById("network"))
-        .backgroundColor('#ffffff').showNavInfo(false)
-        .width(container.offsetWidth)
-        .height(container.offsetHeight)
-        .graphData({ nodes: data.nodes, links: data.edges })
-        .linkSource('from').linkTarget('to').linkColor(()=>'#000011')
-        .nodeThreeObject(node => {
-          const sprite = new SpriteText(node.label);
-          sprite.material.depthWrite = false; // make sprite background transparent
-          sprite.color = node.color;
-          sprite.textHeight = node.value;
-          return sprite;
-        });
+            .backgroundColor('#ffffff').showNavInfo(false)
+            .width(container.offsetWidth)
+            .height(container.offsetHeight)
+            .graphData({ nodes: data.nodes, links: data.edges })
+            .linkSource('from').linkTarget('to').linkColor(() => '#000011')
+            .nodeThreeObject(node => {
+                const sprite = new SpriteText(node.label);
+                sprite.material.depthWrite = false; // make sprite background transparent
+                sprite.color = node.color;
+                sprite.textHeight = node.value;
+                return sprite;
+            })
+            .onNodeClick((node, event) => {
+                change_person(node.id);
+                document.getElementById("publications").innerText = text
+            })
+            .onLinkClick((link, event) => {
+                change_person(link.id);
+                document.getElementById("publications").innerText = text
+            });
     }
 </script>
 
