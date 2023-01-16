@@ -67,10 +67,11 @@ class GG(Graph):
         )
 
 
-async def main(summary_path, paper_path, *args, **kwargs):
+async def main(summary_path, paper_path, limit: int = 0, *args, **kwargs):
     g = GG(*args, **kwargs)
-    while min(*(await g.bfs_once())) > 0:
+    while min(*(await g.bfs_once())) > 0 and (limit != 0):
         print("Still running......")
+        limit -= 1
     summary = g.networkx_summary()
     summary = networkx_drop_noob_once(summary, filter_min_publications=1)
     summary = networkx_drop_thin_edge(summary, filter_min_publications=1)
