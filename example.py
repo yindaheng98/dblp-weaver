@@ -67,14 +67,18 @@ class GG(Graph):
         )
 
 
-async def main(summary_path, paper_path, limit: int = 0, *args, **kwargs):
+async def main(summary_path, paper_path, limit: int = 0,
+               drop_noob_node=True, drop_thin_edge=True,
+               *args, **kwargs):
     g = GG(*args, **kwargs)
     while min(*(await g.bfs_once())) > 0 and (limit != 0):
         print("Still running......")
         limit -= 1
     summary = g.networkx_summary()
-    summary = networkx_drop_noob_once(summary, filter_min_publications=1)
-    summary = networkx_drop_thin_edge(summary, filter_min_publications=1)
+    if drop_noob_node:
+        summary = networkx_drop_noob_once(summary, filter_min_publications=1)
+    if drop_thin_edge:
+        summary = networkx_drop_thin_edge(summary, filter_min_publications=1)
     with open(summary_path, 'w', encoding='utf8') as f:
         json.dump(summary_to_json(summary), fp=f, cls=JSONEncoder, indent=2)
     dump_papers_in_summary(summary, paper_path)
