@@ -58,6 +58,7 @@ vips_app = {
     # 实时视频流
     '06/2128',  # 孙立峰 清华大学计算机科学与技术系，视频传输
     '91/2346-1',  # 崔勇 清华大学计算机科学与技术系
+    '84/2519-2', '42/5105-1',  # 北美的，唐安然的参考博导
 }
 vips = vips_ai.union(vips_app)
 vips_thu = {  # 清华的
@@ -234,4 +235,4 @@ edge_kw2 = [{'mobile'}, {"accelerate", "acceleration"}]
 from dblp_crawler.keyword import Keywords
 
 important_keywords = Keywords()
-important_keywords.add_word_rules("live", "livecast", "livecasting", "fog")
+important_keywords.add_word_rules("live", "livecast", "livecasting", "fog", "quantization", "quantize")
