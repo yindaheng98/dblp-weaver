@@ -1,3 +1,5 @@
+import re
+
 from sets import vips, normal, others, pure_sota, important_keywords
 
 years_to_be_stat = list(range(2016, 2023))
@@ -44,5 +46,22 @@ def node_color(node):
     for pub in node['data']['publications']:
         if important_keywords.match(pub):
             return 'rgb(255,69,0)'
+    journal_count = node['data']['detail']['journal_count']['A']
+    cv_count = 0  # 统计纯模型研究的发表数
+    if 'CVPR' in journal_count:
+        cv_count += journal_count['CVPR']
+    if 'CVPR Workshops' in journal_count:
+        cv_count += journal_count['CVPR Workshops']
+    if 'ICCV' in journal_count:
+        cv_count += journal_count['ICCV']
+    if 'IEEE Trans. Image Process.' in journal_count:
+        cv_count += journal_count['IEEE Trans. Image Process.']
+    for key in journal_count:
+        if re.search(r"^ACL", key):
+            cv_count += journal_count[key]
+    if 'IEEE Trans. Image Process.' in journal_count:
+        cv_count += journal_count['IEEE Trans. Image Process.']
+    if cv_count / node['data']['detail']['ccf_count']['A'] > 0.2:
+        return 'rgba(192,192,192,0.5)'
     if len(node['data']['publications']) < 2:  # 透明掉相关文章数小于2的
         return 'rgba(97,195,238,0.2)'
