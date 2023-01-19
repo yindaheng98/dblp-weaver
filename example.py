@@ -23,7 +23,7 @@ def construct_detail(publications):
 
 
 class GG(Graph):
-    def __init__(self, keywords: Keywords, blacklist: [str], *args, **kwargs):
+    def __init__(self, keywords: Keywords = None, blacklist: [str] = [], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.keywords = keywords
         self.blacklist = blacklist
@@ -32,14 +32,16 @@ class GG(Graph):
         # publications = filter_publications_after(publications, 2016)  # 6年内
         publications = filter_publications_after(publications, 2019)  # 3年内
         publications = filter_publications_by_journals(publications, CCF_A + CCF_B)
-        publications = filter_publications_by_title_with_func(publications, self.keywords.match_words)
+        if self.keywords:
+            publications = filter_publications_by_title_with_func(publications, self.keywords.match_words)
         publications = drop_publications_by_journals(publications, self.blacklist)
         return publications
 
     def filter_publications_at_output(self, publications):
         publications = filter_publications_after(publications, 2019)  # 3年内
         publications = filter_publications_by_journals(publications, CCF_A)
-        publications = filter_publications_by_title_with_func(publications, self.keywords.match)
+        if self.keywords:
+            publications = filter_publications_by_title_with_func(publications, self.keywords.match)
         publications = drop_publications_by_journals(publications, self.blacklist)
         return publications
 
