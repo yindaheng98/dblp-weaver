@@ -1,6 +1,6 @@
-from itertools import product
+import asyncio
+from itertools import product, combinations
 
-from dblp_crawler import *
 from dblp_crawler.data import CCF_A
 from dblp_crawler.keyword import *
 from sets import vips, blacklist, video_kw, video_kw2, sr_kw, sr_kw2, opti_kw, opti_kw2, edge_kw, edge_kw2

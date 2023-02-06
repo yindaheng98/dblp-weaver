@@ -1,4 +1,6 @@
-from dblp_crawler import *
+import json
+from dblp_crawler.filter import *
+from dblp_crawler.summarizer.networkx import *
 from dblp_crawler.data import CCF_A, CCF_B, CCF_C
 from dblp_crawler.keyword import Keywords
 
@@ -22,7 +24,7 @@ def construct_detail(publications):
     return detail
 
 
-class GG(Graph):
+class GG(NetworkxGraph):
     def __init__(self, keywords: Keywords = None, blacklist: [str] = [], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.keywords = keywords
@@ -69,6 +71,22 @@ class GG(Graph):
         )
 
 
+def networkx_drop_noob_once(g, filter_min_publications=3):
+    for node, data in list(g.nodes(data=True)):
+        if data is None or 'publications' not in data or len(data['publications']) < filter_min_publications:
+            # 文章数量太少？
+            g.remove_node(node)  # 应该不是老师吧
+    return g
+
+
+def networkx_drop_thin_edge(g: nx.Graph, filter_min_publications=3):
+    for a, b, data in list(g.edges(data=True)):
+        if data is None or 'publications' not in data or len(data['publications']) < filter_min_publications:
+            # 文章数量太少？
+            g.remove_edge(a, b)  # 那应该不是紧密协作
+    return g
+
+
 async def main(summary_path, paper_path, limit: int = 0,
                drop_noob_node=True, drop_thin_edge=True,
                *args, **kwargs):
@@ -82,5 +100,5 @@ async def main(summary_path, paper_path, limit: int = 0,
     if drop_thin_edge:
         summary = networkx_drop_thin_edge(summary, filter_min_publications=1)
     with open(summary_path, 'w', encoding='utf8') as f:
-        json.dump(summary_to_json(summary), fp=f, cls=JSONEncoder, indent=2)
+        json.dump(summary_to_json(summary), fp=f, cls=json.JSONEncoder, indent=2)
     dump_papers_in_summary(summary, paper_path)
