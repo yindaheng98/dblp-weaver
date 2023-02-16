@@ -3,6 +3,8 @@ from dblp_crawler.filter import *
 from dblp_crawler.summarizer.networkx import *
 from dblp_crawler.data import CCF_A, CCF_B, CCF_C
 from dblp_crawler.keyword import Keywords
+import networkx as nx
+from dblp_crawler import DBLPPerson, Publication
 
 
 def construct_detail(publications):
@@ -87,6 +89,15 @@ def networkx_drop_thin_edge(g: nx.Graph, filter_min_publications=3):
     return g
 
 
+class JSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, DBLPPerson):
+            return obj.pid() + "\n" + str(obj.person())
+        if isinstance(obj, Publication):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
+
+
 async def main(summary_path, paper_path, limit: int = 0,
                drop_noob_node=True, drop_thin_edge=True,
                *args, **kwargs):
@@ -94,11 +105,11 @@ async def main(summary_path, paper_path, limit: int = 0,
     while min(*(await g.bfs_once())) > 0 and (limit != 0):
         print("Still running......")
         limit -= 1
-    summary = g.networkx_summary()
+    summary = g.graph_summary()
     if drop_noob_node:
         summary = networkx_drop_noob_once(summary, filter_min_publications=1)
     if drop_thin_edge:
         summary = networkx_drop_thin_edge(summary, filter_min_publications=1)
     with open(summary_path, 'w', encoding='utf8') as f:
-        json.dump(summary_to_json(summary), fp=f, cls=json.JSONEncoder, indent=2)
+        json.dump(summary_to_json(summary), fp=f, cls=JSONEncoder, indent=2)
     dump_papers_in_summary(summary, paper_path)
