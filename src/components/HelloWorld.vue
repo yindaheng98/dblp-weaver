@@ -4,6 +4,9 @@ import NeoVis from 'neovis.js'
 import { type NumberOrInteger } from 'neovis.js'
 import * as Neo4jTypes from 'neo4j-driver'
 
+const props = defineProps({
+  limit: { type: Number, required: true }
+})
 const viz = ref()
 const serverUrl = import.meta.env.VITE_NEO4J_SERVER_URL
 const serverUser = import.meta.env.VITE_NEO4J_SERVER_USER
@@ -36,8 +39,7 @@ onMounted(() => {
         value: 'weight'
       }
     },
-    initialCypher:
-      "MATCH (a1:Person)-[:WRITE]->(p:Publication)<-[:WRITE]-(a2:Person) WHERE elementId(a1)<elementId(a2) RETURN a1,apoc.create.vRelationship(a1,'COORPERATE',{weight:count(p)},a2),a2 LIMIT 250"
+    initialCypher: `MATCH (a1:Person)-[:WRITE]->(p:Publication)<-[:WRITE]-(a2:Person) WHERE elementId(a1)<elementId(a2) RETURN a1,apoc.create.vRelationship(a1,'COORPERATE',{weight:count(p)},a2),a2 LIMIT ${props.limit}`
   })
   neoviz.render()
 })
