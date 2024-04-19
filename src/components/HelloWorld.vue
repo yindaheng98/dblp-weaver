@@ -1,0 +1,72 @@
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import NeoVis from 'neovis.js'
+
+const viz = ref()
+const serverUrl = import.meta.env.VITE_NEO4J_SERVER_URL
+const serverUser = import.meta.env.VITE_NEO4J_SERVER_USER
+const serverPassword = import.meta.env.VITE_NEO4J_SERVER_PASSWORD
+
+onMounted(() => {
+  let neoviz = new NeoVis({
+    containerId: 'viz',
+    neo4j: {
+      serverUrl: serverUrl,
+      serverUser: serverUser,
+      serverPassword: serverPassword
+    },
+    labels: {
+      Person: {
+        label: 'name',
+        [NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+          function: {
+            title: (node) => NeoVis.objectToTitleHtml(node, ['name'])
+          },
+          cypher: {
+            value: 'MATCH (a:Person{id:$id})-[:WRITE]->(p:Publication) RETURN COUNT(p)'
+          }
+        }
+      }
+    },
+    relationships: {
+      COORPERATE: {
+        value: 'weight'
+      }
+    },
+    initialCypher:
+      "MATCH (a1:Person)-[:WRITE]->(p:Publication)<-[:WRITE]-(a2:Person) WHERE elementId(a1)<elementId(a2) RETURN a1,apoc.create.vRelationship(a1,'COORPERATE',{weight:count(p)},a2),a2 LIMIT 250"
+  })
+  neoviz.render()
+})
+</script>
+
+<template>
+  <div class="greetings">
+    <div ref="viz" id="viz"></div>
+  </div>
+</template>
+
+<style scoped>
+h1 {
+  font-weight: 500;
+  font-size: 2.6rem;
+  position: relative;
+  top: -10px;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+.greetings h1,
+.greetings h3 {
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .greetings h1,
+  .greetings h3 {
+    text-align: left;
+  }
+}
+</style>
