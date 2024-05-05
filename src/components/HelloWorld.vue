@@ -47,7 +47,7 @@ onMounted(() => {
 
 <template>
   <div class="greetings">
-    <div ref="viz" id="viz"></div>
+    <div ref="viz" id="viz">Loading...</div>
   </div>
 </template>
 
