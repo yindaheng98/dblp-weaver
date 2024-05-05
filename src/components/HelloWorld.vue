@@ -20,6 +20,11 @@ onMounted(() => {
       serverUser: serverUser,
       serverPassword: serverPassword
     },
+    visConfig: {
+      nodes: {
+        shape: 'dot'
+      }
+    },
     labels: {
       Person: {
         label: 'name',
