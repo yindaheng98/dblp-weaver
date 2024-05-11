@@ -13,8 +13,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "echarts": "^5.5.0",
     "neovis.js": "^2.1.0",
-    "vue": "^3.4.21"
+    "vue": "^3.4.21",
+    "vue-echarts": "^6.7.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
