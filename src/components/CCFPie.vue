@@ -4,10 +4,38 @@ import { CanvasRenderer } from 'echarts/renderers'
 import { PieChart } from 'echarts/charts'
 import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
-import { ref, provide } from 'vue'
+import { ref, provide, computed } from 'vue'
 import { type Record } from 'neo4j-driver'
 
 const props = defineProps<{ papers: Record[] }>()
+const data = computed(() => {
+  const d = [
+    { value: 0, name: 'CCF A' },
+    { value: 0, name: 'CCF B' },
+    { value: 0, name: 'CCF C' },
+    { value: 0, name: 'Others' }
+  ]
+  for (let paper of props.papers) {
+    const j = paper.get('j')
+    if (!j || !j.properties || !j.properties.ccf) d[3].value++
+    else {
+      switch (j.properties.ccf) {
+        case 'A':
+          d[0].value++
+          break
+        case 'B':
+          d[1].value++
+          break
+        case 'C':
+          d[2].value++
+          break
+        default:
+          d[3].value++
+      }
+    }
+  }
+  return d
+})
 
 use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, LegendComponent])
 
@@ -24,12 +52,7 @@ const option = ref({
       type: 'pie',
       radius: '55%',
       center: ['50%', '60%'],
-      data: [
-        { value: 335, name: 'CCF A' },
-        { value: 310, name: 'CCF B' },
-        { value: 234, name: 'CCF C' },
-        { value: 135, name: 'Others' }
-      ],
+      data: data,
       emphasis: {
         itemStyle: {
           shadowBlur: 10,
@@ -44,7 +67,6 @@ const option = ref({
 
 <template>
   <v-chart class="chart" :option="option" />
-  <div>{{ papers }}</div>
 </template>
 
 <style scoped>

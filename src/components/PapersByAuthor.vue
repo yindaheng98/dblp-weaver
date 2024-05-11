@@ -15,7 +15,7 @@ driver
   .run(
     `MATCH (a:Person) WHERE id(a)=$id
   MATCH (a)-[:WRITE]->(p:Publication)
-  MATCH (j:Journal)<-[:PUBLISH]-(p)
+  OPTIONAL MATCH (j:Journal)<-[:PUBLISH]-(p)
   RETURN p,j`,
     { id: props.id }
   )
