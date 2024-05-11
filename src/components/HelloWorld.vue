@@ -36,7 +36,8 @@ onMounted(() => {
               NeoVis.objectToTitleHtml(node, ['name'])
           },
           cypher: {
-            value: 'MATCH (a:Person{id:$id})-[:WRITE]->(p:Publication) RETURN COUNT(p)'
+            value:
+              'MATCH (a:Person) WHERE id(a) = $id MATCH (a)-[:WRITE]->(p:Publication) RETURN COUNT(p)'
           }
         }
       }
