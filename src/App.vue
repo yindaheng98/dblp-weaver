@@ -6,7 +6,7 @@ import TheWelcome from './components/TheWelcome.vue'
 <template>
   <header>
     <div class="wrapper">
-      <AuthorsByPaper :limit="64" />
+      <AuthorsByPaper :limit="64" :id="88" />
     </div>
   </header>
 
