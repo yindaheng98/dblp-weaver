@@ -1,32 +1,22 @@
-<template>
-  <v-chart class="chart" :option="option" />
-</template>
-
-<script setup>
+<script setup lang="ts">
 import { use } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
 import { PieChart } from 'echarts/charts'
 import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
 import { ref, provide } from 'vue'
+import { type Record } from 'neo4j-driver'
+
+const props = defineProps<{ papers: Record[] }>()
 
 use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, LegendComponent])
 
 provide(THEME_KEY, 'dark')
 
 const option = ref({
-  title: {
-    text: 'Traffic Sources',
-    left: 'center'
-  },
   tooltip: {
     trigger: 'item',
-    formatter: '{a} <br/>{b} : {c} ({d}%)'
-  },
-  legend: {
-    orient: 'vertical',
-    left: 'left',
-    data: ['Direct', 'Email', 'Ad Networks', 'Video Ads', 'Search Engines']
+    formatter: '{b} : {c} ({d}%)'
   },
   series: [
     {
@@ -35,11 +25,10 @@ const option = ref({
       radius: '55%',
       center: ['50%', '60%'],
       data: [
-        { value: 335, name: 'Direct' },
-        { value: 310, name: 'Email' },
-        { value: 234, name: 'Ad Networks' },
-        { value: 135, name: 'Video Ads' },
-        { value: 1548, name: 'Search Engines' }
+        { value: 335, name: 'CCF A' },
+        { value: 310, name: 'CCF B' },
+        { value: 234, name: 'CCF C' },
+        { value: 135, name: 'Others' }
       ],
       emphasis: {
         itemStyle: {
@@ -52,6 +41,11 @@ const option = ref({
   ]
 })
 </script>
+
+<template>
+  <v-chart class="chart" :option="option" />
+  <div>{{ papers }}</div>
+</template>
 
 <style scoped>
 .chart {

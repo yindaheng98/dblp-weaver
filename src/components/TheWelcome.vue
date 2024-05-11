@@ -5,7 +5,6 @@ import ToolingIcon from './icons/IconTooling.vue'
 import EcosystemIcon from './icons/IconEcosystem.vue'
 import CommunityIcon from './icons/IconCommunity.vue'
 import SupportIcon from './icons/IconSupport.vue'
-import StatisticBar from './StatisticBar.vue'
 import PapersByAuthor from './PapersByAuthor.vue'
 </script>
 
@@ -16,7 +15,7 @@ import PapersByAuthor from './PapersByAuthor.vue'
     </template>
     <template #heading>Documentation</template>
 
-    <StatisticBar />
+    Say sth here
   </WelcomeItem>
 
   <WelcomeItem>

@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { use } from 'echarts/core'
-import { CanvasRenderer } from 'echarts/renderers'
-import { PieChart } from 'echarts/charts'
-import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components'
-import VChart, { THEME_KEY } from 'vue-echarts'
-import { ref, provide, computed } from 'vue'
+import { ref } from 'vue'
 import neo4j from 'neo4j-driver'
 import { type Record } from 'neo4j-driver'
 import { type IdType } from 'vis-network'
 import { serverUrl, serverUser, serverPassword } from './connection'
+import CCFPie from './CCFPie.vue'
 
 const props = defineProps<{ id: IdType }>()
 const driver = neo4j.driver(serverUrl, neo4j.auth.basic(serverUser, serverPassword))
@@ -33,7 +29,7 @@ driver
 
 <template>
   <div v-if="error">Oops! Error encountered: {{ error }}</div>
-  <div v-else-if="papers">{{ papers }}</div>
+  <CCFPie v-else-if="papers" :papers="papers" />
 </template>
 
 <style scoped>
