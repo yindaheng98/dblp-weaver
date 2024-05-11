@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import AuthorNeoVis from './AuthorNeoVis.vue'
+import { type IdType } from 'vis-network'
 
-const props = defineProps({
-  limit: { type: Number, required: true },
-  id: { type: Number, required: true }
-})
+const props = defineProps<{ limit: number; id: IdType }>()
 
 const cypher = computed(() => {
   return `

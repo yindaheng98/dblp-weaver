@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import AuthorsByPaper from './components/AuthorsByPaper.vue'
+import NeoVis from './components/NeoVis.vue'
 import TheWelcome from './components/TheWelcome.vue'
+import { neovis_show } from './components/state'
+neovis_show.authorsbypaper(88) // Only for test
 </script>
 
 <template>
   <header>
     <div class="wrapper">
-      <AuthorsByPaper :limit="64" :id="88" />
+      <NeoVis :limit="64" />
     </div>
   </header>
 
@@ -38,7 +40,7 @@ header {
 
   header .wrapper {
     display: flex;
-    place-items: flex-start;
+    place-items: center;
     flex-wrap: wrap;
     height: 100%;
   }

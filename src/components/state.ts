@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import { type IdType } from 'vis-network'
 
-enum ShowContentType {
+export const enum ShowContentType {
     None = 1,
     Author,
 }
@@ -19,7 +19,7 @@ export const content_show = reactive<{
     }
 })
 
-enum ShowNeoVisType {
+export const enum ShowNeoVisType {
     None = 1,
     AuthorByPaper,
 }
