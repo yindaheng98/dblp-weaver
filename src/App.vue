@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import HelloWorld from './components/AuthorNeoVis.vue'
+import AuthorsByPaper from './components/AuthorsByPaper.vue'
 import TheWelcome from './components/TheWelcome.vue'
 </script>
 
 <template>
   <header>
     <div class="wrapper">
-      <HelloWorld :limit="64" />
+      <AuthorsByPaper :limit="64" />
     </div>
   </header>
 
