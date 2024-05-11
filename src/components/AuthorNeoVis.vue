@@ -4,14 +4,12 @@ import NeoVis from 'neovis.js'
 import { type NumberOrInteger } from 'neovis.js'
 import * as Neo4jTypes from 'neo4j-driver'
 import { content_show } from './state'
+import { serverUrl, serverUser, serverPassword } from './connection'
 
 const props = defineProps({
   cypher: { type: String, required: true }
 })
 const viz = ref()
-const serverUrl = import.meta.env.VITE_NEO4J_SERVER_URL
-const serverUser = import.meta.env.VITE_NEO4J_SERVER_USER
-const serverPassword = import.meta.env.VITE_NEO4J_SERVER_PASSWORD
 
 onMounted(() => {
   let neoviz = new NeoVis({
