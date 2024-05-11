@@ -44,7 +44,8 @@ onMounted(() => {
     },
     relationships: {
       COORPERATE: {
-        value: 'weight'
+        value: 'weight',
+        title: 'weight'
       }
     },
     initialCypher: `MATCH (a1:Person)-[:WRITE]->(p:Publication)<-[:WRITE]-(a2:Person) WHERE elementId(a1)<elementId(a2) RETURN a1,apoc.create.vRelationship(a1,'COORPERATE',{weight:count(p)},a2),a2 LIMIT ${props.limit}`
