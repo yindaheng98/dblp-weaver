@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import NeoVis from 'neovis.js'
 import { type NumberOrInteger } from 'neovis.js'
 import * as Neo4jTypes from 'neo4j-driver'
+import { content_show } from './state'
 
 const props = defineProps({
   cypher: { type: String, required: true }
@@ -22,7 +23,13 @@ onMounted(() => {
     },
     visConfig: {
       nodes: {
-        shape: 'dot'
+        shape: 'dot',
+        chosen: {
+          node: function (values, id, selected, hovering) {
+            content_show.author(id)
+          },
+          label: false
+        }
       },
       width: '100%',
       height: '100%'
