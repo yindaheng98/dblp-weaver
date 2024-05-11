@@ -5,8 +5,6 @@ import TheWelcome from './components/TheWelcome.vue'
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
     <div class="wrapper">
       <HelloWorld :limit="64" />
     </div>
@@ -42,6 +40,7 @@ header {
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
+    height: 100%;
   }
 }
 </style>

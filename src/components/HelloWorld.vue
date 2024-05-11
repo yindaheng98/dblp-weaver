@@ -23,7 +23,9 @@ onMounted(() => {
     visConfig: {
       nodes: {
         shape: 'dot'
-      }
+      },
+      width: '100%',
+      height: '100%'
     },
     labels: {
       Person: {
@@ -51,9 +53,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="greetings">
-    <div ref="viz" id="viz">Loading...</div>
-  </div>
+  <div ref="viz" id="viz" class="viz">Loading...</div>
 </template>
 
 <style scoped>
@@ -68,15 +68,11 @@ h3 {
   font-size: 1.2rem;
 }
 
-.greetings h1,
-.greetings h3 {
+.viz {
+  display: flex;
+  width: 100%;
+  height: 99%;
+  align-items: center;
   text-align: center;
-}
-
-@media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
-    text-align: left;
-  }
 }
 </style>
