@@ -77,8 +77,8 @@ const ccf_option = ref({
     {
       name: 'Traffic Sources',
       type: 'pie',
-      radius: '55%',
-      center: ['50%', '60%'],
+      radius: '50%',
+      center: ['50%', '50%'],
       data: ccf_data,
       emphasis: {
         itemStyle: {
@@ -100,8 +100,8 @@ const journal_option = ref({
     {
       name: 'Traffic Sources',
       type: 'pie',
-      radius: '55%',
-      center: ['50%', '60%'],
+      radius: '50%',
+      center: ['50%', '50%'],
       data: journal_data,
       emphasis: {
         itemStyle: {
@@ -116,12 +116,21 @@ const journal_option = ref({
 </script>
 
 <template>
-  <v-chart class="chart" :option="ccf_option" />
-  <v-chart class="chart" :option="journal_option" />
+  <div class="wrapper">
+    <v-chart class="chart" :option="ccf_option" />
+    <v-chart class="chart" :option="journal_option" />
+  </div>
 </template>
 
 <style scoped>
+.wrapper {
+  height: 300px;
+  width: 100%;
+  display: flex;
+}
 .chart {
-  height: 400px;
+  height: 100%;
+  width: 50%;
+  display: flex;
 }
 </style>

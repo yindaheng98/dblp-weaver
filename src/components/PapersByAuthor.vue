@@ -5,7 +5,6 @@ import { type Record } from 'neo4j-driver'
 import { type IdType } from 'vis-network'
 import { serverUrl, serverUser, serverPassword } from './connection'
 import CCFPie from './CCFPie.vue'
-import JournalPie from './JournalPie.vue'
 
 const props = defineProps<{ id: IdType }>()
 const driver = neo4j.driver(serverUrl, neo4j.auth.basic(serverUser, serverPassword))

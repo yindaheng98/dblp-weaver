@@ -31,7 +31,7 @@ header {
   header {
     display: flex;
     place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    height: 99vh;
   }
 
   .logo {
@@ -43,6 +43,11 @@ header {
     place-items: center;
     flex-wrap: wrap;
     height: 100%;
+  }
+  main {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 99vh;
   }
 }
 </style>
