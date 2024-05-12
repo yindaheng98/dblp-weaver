@@ -27,22 +27,22 @@ const year_data = computed(() => {
   for (let paper of props.papers) {
     const j = paper.get('j')
     const p = paper.get('p')
-    if (!p || !p.properties || !p.properties.year || p.properties.year - props.minyear < 0) continue
+    if (!p || !p.properties || !p.properties.year || p.properties.year - props.minyear - 1 < 0) continue
     const year = p.properties.year
-    if (!j || !j.properties || !j.properties.ccf) year_gather[3].data[year - props.minyear] += 1
+    if (!j || !j.properties || !j.properties.ccf) year_gather[3].data[year - props.minyear - 1] += 1
     else {
       switch (j.properties.ccf) {
         case 'A':
-          year_gather[0].data[year - props.minyear] += 1
+          year_gather[0].data[year - props.minyear - 1] += 1
           break
         case 'B':
-          year_gather[1].data[year - props.minyear] += 1
+          year_gather[1].data[year - props.minyear - 1] += 1
           break
         case 'C':
-          year_gather[2].data[year - props.minyear] += 1
+          year_gather[2].data[year - props.minyear - 1] += 1
           break
         default:
-          year_gather[3].data[year - props.minyear] += 1
+          year_gather[3].data[year - props.minyear - 1] += 1
       }
     }
   }
@@ -53,7 +53,7 @@ const year_data = computed(() => {
 <template>
   <div class="wrapper">
     <BarLabelRotation :data="year_data"
-      :xAxis="Array.from({ length: (props.maxyear - props.minyear) }, (v, k) => k + props.minyear)" />
+      :xAxis="Array.from({ length: (props.maxyear - props.minyear) }, (v, k) => k + props.minyear + 1)" />
   </div>
 </template>
 
