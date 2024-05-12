@@ -56,7 +56,7 @@ const journal_data = computed(() => {
     })
     let d: { value: number; name: string }[] = []
     for (let k in dict) d.push({ value: dict[k], name: k })
-    return d.sort((a, b) => a.value - b.value)
+    return d.sort((a, b) => b.value - a.value)
   }
   return count(ccf_gather.A)
     .concat(count(ccf_gather.B))

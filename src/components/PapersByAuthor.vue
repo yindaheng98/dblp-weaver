@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import neo4j from 'neo4j-driver'
 import { type Record } from 'neo4j-driver'
 import { type IdType } from 'vis-network'
@@ -9,22 +9,26 @@ import CCFPie from './CCFPie.vue'
 const props = defineProps<{ id: IdType }>()
 const driver = neo4j.driver(serverUrl, neo4j.auth.basic(serverUser, serverPassword))
 const papers = ref<Record[]>([])
-const error = ref(null)
-driver
-  .session({ database: 'neo4j' })
-  .run(
-    `MATCH (a:Person) WHERE id(a)=$id
-  MATCH (a)-[:WRITE]->(p:Publication)
+const error = ref<any>(null)
+watch(
+  () => props.id,
+  async (id) => {
+    const today = new Date()
+    try {
+      const result = await driver.session({ database: 'neo4j' }).run(
+        `MATCH (a:Person) WHERE id(a)=$id
+  MATCH (a)-[:WRITE]->(p:Publication) WHERE p.year>$year
   OPTIONAL MATCH (j:Journal)<-[:PUBLISH]-(p)
   RETURN p,j`,
-    { id: props.id }
-  )
-  .then((result) => {
-    papers.value = result.records
-  })
-  .catch((err) => {
-    error.value = err
-  })
+        { id: id, year: today.getFullYear() - 5 }
+      )
+      papers.value = result.records
+    } catch (e) {
+      error.value = e
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
