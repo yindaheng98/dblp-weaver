@@ -13,9 +13,9 @@ export const content_show = reactive<{
     type: ShowContentType.None,
     id: 0,
     author(id: IdType) {
+        console.log(id)
         this.type = ShowContentType.Author
         this.id = id
-        console.log(id)
     }
 })
 
@@ -31,6 +31,7 @@ export const neovis_show = reactive<{
     type: ShowNeoVisType.None,
     id: 0,
     authorsbypaper(id: IdType) {
+        console.log(id)
         this.type = ShowNeoVisType.AuthorByPaper
         this.id = id
     }

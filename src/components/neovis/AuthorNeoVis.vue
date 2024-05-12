@@ -3,12 +3,15 @@ import { ref, onMounted } from 'vue'
 import NeoVis from 'neovis.js'
 import { type NumberOrInteger } from 'neovis.js'
 import * as Neo4jTypes from 'neo4j-driver'
-import { content_show } from '../state'
+import { type IdType } from 'vis-network'
 import { serverUrl, serverUser, serverPassword } from '../connection'
 
 const props = defineProps({
   cypher: { type: String, required: true }
 })
+const emit = defineEmits<{
+  (e: 'selectAuthor', id: IdType): void
+}>()
 const viz = ref()
 
 onMounted(() => {
@@ -24,7 +27,7 @@ onMounted(() => {
         shape: 'dot',
         chosen: {
           node: function (values, id, selected, hovering) {
-            content_show.author(id)
+            emit('selectAuthor', id)
           },
           label: false
         }
