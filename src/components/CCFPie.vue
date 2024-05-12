@@ -9,31 +9,32 @@ import { type Record } from 'neo4j-driver'
 
 const props = defineProps<{ papers: Record[] }>()
 const data = computed(() => {
-  const ccf = [
-    { value: 0, name: 'CCF A' },
-    { value: 0, name: 'CCF B' },
-    { value: 0, name: 'CCF C' },
-    { value: 0, name: 'Others' }
-  ]
+  const ccf_gather: { [id: string]: any[] } = { A: [], B: [], C: [], N: [] }
   for (let paper of props.papers) {
     const j = paper.get('j')
-    if (!j || !j.properties || !j.properties.ccf) ccf[3].value++
+    if (!j || !j.properties || !j.properties.ccf) ccf_gather.N.push(j)
     else {
       switch (j.properties.ccf) {
         case 'A':
-          ccf[0].value++
+          ccf_gather.A.push(j)
           break
         case 'B':
-          ccf[1].value++
+          ccf_gather.B.push(j)
           break
         case 'C':
-          ccf[2].value++
+          ccf_gather.C.push(j)
           break
         default:
-          ccf[3].value++
+          ccf_gather.N.push(j)
       }
     }
   }
+  const ccf = [
+    { value: ccf_gather.A.length, name: 'CCF A' },
+    { value: ccf_gather.B.length, name: 'CCF B' },
+    { value: ccf_gather.C.length, name: 'CCF C' },
+    { value: ccf_gather.N.length, name: 'Others' }
+  ]
   return { ccf: ccf }
 })
 
