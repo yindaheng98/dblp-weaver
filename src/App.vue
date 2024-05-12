@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import NeoVis from './components/NeoVis.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import GraphPanel from './components/GraphPanel.vue'
+import ContentPanel from './components/ContentPanel.vue'
 import { neovis_show } from './components/state'
 neovis_show.authorsbypaper(88) // Only for test
 </script>
@@ -8,12 +8,12 @@ neovis_show.authorsbypaper(88) // Only for test
 <template>
   <header>
     <div class="wrapper">
-      <NeoVis :limit="64" />
+      <GraphPanel :limit="64" />
     </div>
   </header>
 
   <main>
-    <TheWelcome />
+    <ContentPanel />
   </main>
 </template>
 
