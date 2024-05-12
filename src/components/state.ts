@@ -5,7 +5,7 @@ export const enum ShowContentType {
     None = 1,
     Author,
 }
-export const content_show = reactive<{
+export const contentShow = reactive<{
     type: ShowContentType,
     id: IdType,
     author(id: IdType): void
@@ -23,7 +23,7 @@ export const enum ShowNeoVisType {
     None = 1,
     AuthorByPaper,
 }
-export const neovis_show = reactive<{
+export const neovisShow = reactive<{
     type: ShowNeoVisType,
     id: IdType,
     authorsbypaper(id: IdType): void
