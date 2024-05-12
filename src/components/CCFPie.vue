@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { use } from 'echarts/core'
-import { CanvasRenderer } from 'echarts/renderers'
-import { PieChart } from 'echarts/charts'
-import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components'
-import VChart, { THEME_KEY } from 'vue-echarts'
-import { ref, provide, computed } from 'vue'
+import { computed } from 'vue'
 import { type Record } from 'neo4j-driver'
+import ECPie from './echarts/ECPie.vue'
 
 const props = defineProps<{ papers: Record[] }>()
 const gather = computed(() => {
@@ -63,62 +59,12 @@ const journal_data = computed(() => {
     .concat(count(ccf_gather.C))
     .concat(count(ccf_gather.N))
 })
-
-use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, LegendComponent])
-
-provide(THEME_KEY, 'dark')
-
-const ccf_option = ref({
-  tooltip: {
-    trigger: 'item',
-    formatter: '{b} : {c} ({d}%)'
-  },
-  series: [
-    {
-      name: 'Traffic Sources',
-      type: 'pie',
-      radius: '50%',
-      center: ['50%', '50%'],
-      data: ccf_data,
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 0, 0, 0.5)'
-        }
-      }
-    }
-  ]
-})
-
-const journal_option = ref({
-  tooltip: {
-    trigger: 'item',
-    formatter: '{b} : {c} ({d}%)'
-  },
-  series: [
-    {
-      name: 'Traffic Sources',
-      type: 'pie',
-      radius: '50%',
-      center: ['50%', '50%'],
-      data: journal_data,
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 0, 0, 0.5)'
-        }
-      }
-    }
-  ]
-})
 </script>
 
 <template>
   <div class="wrapper">
-    <v-chart class="chart" :option="ccf_option" />
-    <v-chart class="chart" :option="journal_option" />
+    <ECPie :data="ccf_data" />
+    <ECPie :data="journal_data" />
   </div>
 </template>
 
@@ -126,11 +72,6 @@ const journal_option = ref({
 .wrapper {
   height: 300px;
   width: 100%;
-  display: flex;
-}
-.chart {
-  height: 100%;
-  width: 50%;
   display: flex;
 }
 </style>
