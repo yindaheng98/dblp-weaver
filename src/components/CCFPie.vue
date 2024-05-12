@@ -9,7 +9,7 @@ import { type Record } from 'neo4j-driver'
 
 const props = defineProps<{ papers: Record[] }>()
 const data = computed(() => {
-  const d = [
+  const ccf = [
     { value: 0, name: 'CCF A' },
     { value: 0, name: 'CCF B' },
     { value: 0, name: 'CCF C' },
@@ -17,24 +17,24 @@ const data = computed(() => {
   ]
   for (let paper of props.papers) {
     const j = paper.get('j')
-    if (!j || !j.properties || !j.properties.ccf) d[3].value++
+    if (!j || !j.properties || !j.properties.ccf) ccf[3].value++
     else {
       switch (j.properties.ccf) {
         case 'A':
-          d[0].value++
+          ccf[0].value++
           break
         case 'B':
-          d[1].value++
+          ccf[1].value++
           break
         case 'C':
-          d[2].value++
+          ccf[2].value++
           break
         default:
-          d[3].value++
+          ccf[3].value++
       }
     }
   }
-  return d
+  return { ccf: ccf }
 })
 
 use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, LegendComponent])
@@ -52,7 +52,7 @@ const option = ref({
       type: 'pie',
       radius: '55%',
       center: ['50%', '60%'],
-      data: data,
+      data: data.value.ccf,
       emphasis: {
         itemStyle: {
           shadowBlur: 10,
