@@ -5,6 +5,7 @@ import { type Record } from 'neo4j-driver'
 import { type IdType } from 'vis-network'
 import { serverUrl, serverUser, serverPassword } from './connection'
 import CCFPie from './CCFPie.vue'
+import JournalPie from './JournalPie.vue'
 
 const props = defineProps<{ id: IdType }>()
 const driver = neo4j.driver(serverUrl, neo4j.auth.basic(serverUser, serverPassword))
@@ -29,7 +30,10 @@ driver
 
 <template>
   <div v-if="error">Oops! Error encountered: {{ error }}</div>
-  <CCFPie v-else-if="papers" :papers="papers" />
+  <div v-else-if="papers">
+    <CCFPie :papers="papers" />
+    <JournalPie :papers="papers" />
+  </div>
 </template>
 
 <style scoped>
