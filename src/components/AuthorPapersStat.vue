@@ -4,8 +4,8 @@ import neo4j from 'neo4j-driver'
 import { type Record } from 'neo4j-driver'
 import { type IdType } from 'vis-network'
 import { serverUrl, serverUser, serverPassword } from './connection'
-import AuthorPapersPie from './AuthorPapersPie.vue'
-import AuthorPapersBar from './AuthorPapersBar.vue'
+import AuthorPapersStatPie from './AuthorPapersStatPie.vue'
+import AuthorPapersStatBar from './AuthorPapersStatBar.vue'
 
 const props = defineProps<{ id: IdType }>()
 const driver = neo4j.driver(serverUrl, neo4j.auth.basic(serverUser, serverPassword))
@@ -35,8 +35,8 @@ watch(
 <template>
   <div v-if="error">Oops! Error encountered: {{ error }}</div>
   <div v-else-if="papers">
-    <AuthorPapersPie :papers="papers" />
-    <AuthorPapersBar :papers="papers" :maxyear="today.getFullYear()" :minyear="today.getFullYear() - 5" />
+    <AuthorPapersStatPie :papers="papers" />
+    <AuthorPapersStatBar :papers="papers" :maxyear="today.getFullYear()" :minyear="today.getFullYear() - 5" />
   </div>
 </template>
 
