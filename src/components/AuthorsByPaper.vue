@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import AuthorNeoVis from './AuthorNeoVis.vue'
+import AuthorNeoVis from './neovis/AuthorNeoVis.vue'
 import { type IdType } from 'vis-network'
 
 const props = defineProps<{ limit: number; id: IdType }>()
