@@ -63,8 +63,8 @@ const journal_data = computed(() => {
 
 <template>
   <div class="wrapper">
-    <ECPie :data="ccf_data" />
-    <ECPie :data="journal_data" />
+    <ECPie :data="ccf_data" name="CCF Count" />
+    <ECPie :data="journal_data" name="Journal count" />
   </div>
 </template>
 
