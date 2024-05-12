@@ -47,7 +47,10 @@ export const statePaperList = reactive<{
         this.visible = true
         this.id = id
         if (year) this.filter.year = year
+        else this.filter.year = undefined
         if (journal) this.filter.journal = journal
+        else this.filter.journal = undefined
         if (ccf) this.filter.ccf = ccf
+        else this.filter.ccf = undefined
     }
 })
