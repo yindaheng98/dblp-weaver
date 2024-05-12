@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import AuthorNeoVis from './neovis/AuthorNeoVis.vue'
 import { type IdType } from 'vis-network'
-import { contentShow } from './state'
+import { stateAuthorPapersStat } from './state'
 
 const props = defineProps<{ limit: number; id: IdType }>()
 
@@ -15,5 +15,5 @@ const cypher = computed(() => {
 </script>
 
 <template>
-  <AuthorNeoVis :cypher="cypher" @selectAuthor="(id) => contentShow.author(id)" />
+  <AuthorNeoVis :cypher="cypher" @selectAuthor="(id) => stateAuthorPapersStat.show(id)" />
 </template>

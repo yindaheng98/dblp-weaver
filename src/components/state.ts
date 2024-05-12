@@ -1,24 +1,6 @@
 import { reactive } from 'vue'
 import { type IdType } from 'vis-network'
 
-export const enum ShowContentType {
-    None = 1,
-    Author,
-}
-export const contentShow = reactive<{
-    type: ShowContentType,
-    id: IdType,
-    author(id: IdType): void
-}>({
-    type: ShowContentType.None,
-    id: 0,
-    author(id: IdType) {
-        console.log(id)
-        this.type = ShowContentType.Author
-        this.id = id
-    }
-})
-
 export const enum ShowNeoVisType {
     None = 1,
     AuthorByPaper,
@@ -33,6 +15,19 @@ export const neovisShow = reactive<{
     authorsbypaper(id: IdType) {
         console.log(id)
         this.type = ShowNeoVisType.AuthorByPaper
+        this.id = id
+    }
+})
+
+export const stateAuthorPapersStat = reactive<{
+    visible: boolean,
+    id: IdType,
+    show(id: IdType): void
+}>({
+    visible: false,
+    id: 0,
+    show(id: IdType) {
+        this.visible = true
         this.id = id
     }
 })
