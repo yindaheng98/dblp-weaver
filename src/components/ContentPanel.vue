@@ -5,7 +5,7 @@ import ToolingIcon from './icons/IconTooling.vue'
 import EcosystemIcon from './icons/IconEcosystem.vue'
 import CommunityIcon from './icons/IconCommunity.vue'
 import SupportIcon from './icons/IconSupport.vue'
-import AuthorDetails from './AuthorDetails.vue'
+import AuthorPapers from './AuthorPapers.vue'
 import { content_show, ShowContentType } from './state'
 </script>
 
@@ -25,7 +25,7 @@ import { content_show, ShowContentType } from './state'
     </template>
     <template #heading>Publications in recent 5 years</template>
 
-    <AuthorDetails v-if="content_show.type == ShowContentType.Author" :id="content_show.id" />
+    <AuthorPapers v-if="content_show.type == ShowContentType.Author" :id="content_show.id" />
     <div v-else>Select and Author from the graph to see its publications</div>
   </WelcomeItem>
 
