@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { type Record } from 'neo4j-driver'
-import ECPie from './echarts/ECPie.vue'
+import PieSimple from './echarts/PieSimple.vue'
 
 const props = defineProps<{ papers: Record[] }>()
 const gather = computed(() => {
@@ -63,8 +63,8 @@ const journal_data = computed(() => {
 
 <template>
   <div class="wrapper">
-    <ECPie :data="ccf_data" name="CCF Count" />
-    <ECPie :data="journal_data" name="Journal count" />
+    <PieSimple :data="ccf_data" name="CCF Count" />
+    <PieSimple :data="journal_data" name="Journal count" />
   </div>
 </template>
 
