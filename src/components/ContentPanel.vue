@@ -6,7 +6,8 @@ import EcosystemIcon from './icons/IconEcosystem.vue'
 import CommunityIcon from './icons/IconCommunity.vue'
 import SupportIcon from './icons/IconSupport.vue'
 import AuthorPapersStat from './AuthorPapersStat.vue'
-import { stateAuthorPapersStat } from './state'
+import AuthorPapersList from './AuthorPapersList.vue'
+import { stateAuthorPapersStat, statePaperList } from './state'
 </script>
 
 <template>
@@ -35,14 +36,8 @@ import { stateAuthorPapersStat } from './state'
     </template>
     <template #heading>Ecosystem</template>
 
-    Get official tools and libraries for your project:
-    <a href="https://pinia.vuejs.org/" target="_blank" rel="noopener">Pinia</a>,
-    <a href="https://router.vuejs.org/" target="_blank" rel="noopener">Vue Router</a>,
-    <a href="https://test-utils.vuejs.org/" target="_blank" rel="noopener">Vue Test Utils</a>, and
-    <a href="https://github.com/vuejs/devtools" target="_blank" rel="noopener">Vue Dev Tools</a>. If
-    you need more resources, we suggest paying
-    <a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">Awesome Vue</a>
-    a visit.
+    <AuthorPapersList v-if="statePaperList.visible" :id="statePaperList.id" :filter="statePaperList.filter" />
+    <div v-else>Select and Author from the graph to see its publications</div>
   </WelcomeItem>
 
   <WelcomeItem>
@@ -54,9 +49,8 @@ import { stateAuthorPapersStat } from './state'
     Got stuck? Ask your question on
     <a href="https://chat.vuejs.org" target="_blank" rel="noopener">Vue Land</a>, our official
     Discord server, or
-    <a href="https://stackoverflow.com/questions/tagged/vue.js" target="_blank" rel="noopener"
-      >StackOverflow</a
-    >. You should also subscribe to
+    <a href="https://stackoverflow.com/questions/tagged/vue.js" target="_blank" rel="noopener">StackOverflow</a>. You
+    should also subscribe to
     <a href="https://news.vuejs.org" target="_blank" rel="noopener">our mailing list</a> and follow
     the official
     <a href="https://twitter.com/vuejs" target="_blank" rel="noopener">@vuejs</a>

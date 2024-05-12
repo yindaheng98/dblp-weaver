@@ -31,3 +31,23 @@ export const stateAuthorPapersStat = reactive<{
         this.id = id
     }
 })
+
+export const statePaperList = reactive<{
+    visible: boolean,
+    id: IdType,
+    filter: {
+        year?: number, journal?: string, ccf?: string
+    }
+    show(id: IdType, year?: number, journal?: string, ccf?: string): void
+}>({
+    visible: false,
+    id: 0,
+    filter: {},
+    show(id: IdType, year?: number, journal?: string, ccf?: string) {
+        this.visible = true
+        this.id = id
+        if (year) this.filter.year = year
+        if (journal) this.filter.journal = journal
+        if (ccf) this.filter.ccf = ccf
+    }
+})
