@@ -32,7 +32,6 @@ driver
   <div v-if="error">Oops! Error encountered: {{ error }}</div>
   <div v-else-if="papers">
     <CCFPie :papers="papers" />
-    <JournalPie :papers="papers" />
   </div>
 </template>
 

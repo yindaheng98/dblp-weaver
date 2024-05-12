@@ -8,7 +8,7 @@ import { ref, provide, computed } from 'vue'
 import { type Record } from 'neo4j-driver'
 
 const props = defineProps<{ papers: Record[] }>()
-const data = computed(() => {
+const gather = computed(() => {
   const ccf_gather: { [id: string]: any[] } = { A: [], B: [], C: [], N: [] }
   for (let paper of props.papers) {
     const j = paper.get('j')
@@ -29,20 +29,46 @@ const data = computed(() => {
       }
     }
   }
-  const ccf = [
+  return ccf_gather
+})
+const ccf_data = computed(() => {
+  const ccf_gather = gather.value
+  return [
     { value: ccf_gather.A.length, name: 'CCF A' },
     { value: ccf_gather.B.length, name: 'CCF B' },
     { value: ccf_gather.C.length, name: 'CCF C' },
     { value: ccf_gather.N.length, name: 'Others' }
   ]
-  return { ccf: ccf }
+})
+const journal_data = computed(() => {
+  const ccf_gather = gather.value
+  function count(gather: any[]) {
+    const dict: { [id: string]: number } = {}
+    gather.map((j) => {
+      if (!j || !j.properties || !j.properties.dblp_name) dict['Others']++
+      else {
+        if (j.properties.dblp_name in dict) {
+          dict[j.properties.dblp_name]++
+        } else {
+          dict[j.properties.dblp_name] = 1
+        }
+      }
+    })
+    let d: { value: number; name: string }[] = []
+    for (let k in dict) d.push({ value: dict[k], name: k })
+    return d.sort((a, b) => a.value - b.value)
+  }
+  return count(ccf_gather.A)
+    .concat(count(ccf_gather.B))
+    .concat(count(ccf_gather.C))
+    .concat(count(ccf_gather.N))
 })
 
 use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, LegendComponent])
 
 provide(THEME_KEY, 'dark')
 
-const option = ref({
+const ccf_option = ref({
   tooltip: {
     trigger: 'item',
     formatter: '{b} : {c} ({d}%)'
@@ -53,7 +79,30 @@ const option = ref({
       type: 'pie',
       radius: '55%',
       center: ['50%', '60%'],
-      data: data.value.ccf,
+      data: ccf_data,
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
+        }
+      }
+    }
+  ]
+})
+
+const journal_option = ref({
+  tooltip: {
+    trigger: 'item',
+    formatter: '{b} : {c} ({d}%)'
+  },
+  series: [
+    {
+      name: 'Traffic Sources',
+      type: 'pie',
+      radius: '55%',
+      center: ['50%', '60%'],
+      data: journal_data,
       emphasis: {
         itemStyle: {
           shadowBlur: 10,
@@ -67,7 +116,8 @@ const option = ref({
 </script>
 
 <template>
-  <v-chart class="chart" :option="option" />
+  <v-chart class="chart" :option="ccf_option" />
+  <v-chart class="chart" :option="journal_option" />
 </template>
 
 <style scoped>
