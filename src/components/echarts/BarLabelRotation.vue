@@ -6,7 +6,7 @@ import { CanvasRenderer } from 'echarts/renderers'
 import { computed } from 'vue'
 import VChart from 'vue-echarts'
 
-const props = defineProps<{ data: { data: number[]; name: string }[] }>()
+const props = defineProps<{ data: { data: number[]; name: string }[], xAxis: (string | number)[] }>()
 
 echarts.use([TooltipComponent, GridComponent, LegendComponent, BarChart, CanvasRenderer])
 
@@ -36,7 +36,7 @@ const option = computed(() => {
       {
         type: 'category',
         axisTick: { show: false },
-        data: ['2012', '2013', '2014', '2015', '2016']
+        data: props.xAxis
       }
     ],
     yAxis: [

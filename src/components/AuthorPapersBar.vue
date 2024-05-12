@@ -3,30 +3,57 @@ import { computed } from 'vue'
 import { type Record } from 'neo4j-driver'
 import BarLabelRotation from './echarts/BarLabelRotation.vue'
 
-const props = defineProps<{ papers: Record[] }>()
-const year_data = [
-  {
-    name: 'CCF A',
-    data: [320, 332, 301, 334, 390]
-  },
-  {
-    name: 'CCF B',
-    data: [220, 182, 191, 234, 290]
-  },
-  {
-    name: 'CCF C',
-    data: [150, 232, 201, 154, 190]
-  },
-  {
-    name: 'No CCF',
-    data: [98, 77, 101, 99, 40]
+const props = defineProps<{ papers: Record[], maxyear: number, minyear: number }>()
+
+const year_data = computed(() => {
+  const year_gather = [
+    {
+      name: 'CCF A',
+      data: Array.from({ length: (props.maxyear - props.minyear) }, () => 0)
+    },
+    {
+      name: 'CCF B',
+      data: Array.from({ length: (props.maxyear - props.minyear) }, () => 0)
+    },
+    {
+      name: 'CCF C',
+      data: Array.from({ length: (props.maxyear - props.minyear) }, () => 0)
+    },
+    {
+      name: 'No CCF',
+      data: Array.from({ length: (props.maxyear - props.minyear) }, () => 0)
+    }
+  ]
+  for (let paper of props.papers) {
+    const j = paper.get('j')
+    const p = paper.get('p')
+    if (!p || !p.properties || !p.properties.year || p.properties.year - props.minyear < 0) continue
+    const year = p.properties.year
+    if (!j || !j.properties || !j.properties.ccf) year_gather[3].data[year - props.minyear] += 1
+    else {
+      switch (j.properties.ccf) {
+        case 'A':
+          year_gather[0].data[year - props.minyear] += 1
+          break
+        case 'B':
+          year_gather[1].data[year - props.minyear] += 1
+          break
+        case 'C':
+          year_gather[2].data[year - props.minyear] += 1
+          break
+        default:
+          year_gather[3].data[year - props.minyear] += 1
+      }
+    }
   }
-]
+  return year_gather
+})
 </script>
 
 <template>
   <div class="wrapper">
-    <BarLabelRotation :data="year_data" />
+    <BarLabelRotation :data="year_data"
+      :xAxis="Array.from({ length: (props.maxyear - props.minyear) }, (v, k) => k + props.minyear)" />
   </div>
 </template>
 
