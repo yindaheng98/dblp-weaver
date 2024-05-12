@@ -37,15 +37,15 @@ const ccf_data = computed(() => {
     { value: ccf_gather.A.length, name: 'CCF A' },
     { value: ccf_gather.B.length, name: 'CCF B' },
     { value: ccf_gather.C.length, name: 'CCF C' },
-    { value: ccf_gather.N.length, name: 'Others' }
+    { value: ccf_gather.N.length, name: 'No CCF' }
   ]
 })
 const journal_data = computed(() => {
   const ccf_gather = gather.value
   function count(gather: any[]) {
-    const dict: { [id: string]: number } = {}
+    const dict: { [id: string]: number } = { Null: 0 }
     gather.map((j) => {
-      if (!j || !j.properties || !j.properties.dblp_name) dict['Others']++
+      if (!j || !j.properties || !j.properties.dblp_name) dict['Null']++
       else {
         if (j.properties.dblp_name in dict) {
           dict[j.properties.dblp_name]++
