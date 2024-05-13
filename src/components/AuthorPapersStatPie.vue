@@ -44,10 +44,12 @@ function ccf_click(e: ECElementEvent) {
 const journal_data = computed(() => {
   const ccf_gather = gather.value
   function count(gather: any[]) {
-    const dict: { [id: string]: number } = { Null: 0 }
+    const dict: { [id: string]: number } = {}
     gather.map((j) => {
-      if (!j || !j.properties || !j.properties.dblp_name) dict['Null']++
-      else {
+      if (!j || !j.properties || !j.properties.dblp_name) {
+        if (dict['Null']) dict['Null']++
+        else dict['Null'] = 1
+      } else {
         if (j.properties.dblp_name in dict) {
           dict[j.properties.dblp_name]++
         } else {
@@ -64,12 +66,15 @@ const journal_data = computed(() => {
     .concat(count(ccf_gather.C))
     .concat(count(ccf_gather.N))
 })
+function journal_click(e: ECElementEvent) {
+  statePaperList.show(undefined, undefined, journal_data.value[e.dataIndex].name)
+}
 </script>
 
 <template>
   <div class="wrapper">
     <PieSimple :data="ccf_data" name="CCF Count" @click="ccf_click" />
-    <PieSimple :data="journal_data" name="Journal count" @click="console.log" />
+    <PieSimple :data="journal_data" name="Journal count" @click="journal_click" />
   </div>
 </template>
 

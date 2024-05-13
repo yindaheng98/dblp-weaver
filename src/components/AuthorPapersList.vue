@@ -52,6 +52,9 @@ const content = computed(() => {
     if (statePaperList.filter.ccf) {
       if (statePaperList.filter.ccf == data.ccf) texts.push(data)
       else if (statePaperList.filter.ccf == "N" && !data.ccf) texts.push(data)
+    } else if (statePaperList.filter.journal) {
+      if (statePaperList.filter.journal == data.journal) texts.push(data)
+      else if (statePaperList.filter.journal == 'Null' && !data.journal) texts.push(data)
     } else texts.push(data)
   }
   return texts.sort((a, b) => {
