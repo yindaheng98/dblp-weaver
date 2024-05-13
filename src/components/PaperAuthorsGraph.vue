@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import AuthorNeoVis from './neovis/AuthorNeoVis.vue'
+import AuthorsGraph from './neovis/AuthorsGraph.vue'
 import { type IdType } from 'vis-network'
 import { stateAuthorPapersStat, statePaperList } from './state'
 
@@ -15,5 +15,5 @@ const cypher = computed(() => {
 </script>
 
 <template>
-  <AuthorNeoVis :cypher="cypher" @selectAuthor="(id) => { stateAuthorPapersStat.show(id); statePaperList.show(id) }" />
+  <AuthorsGraph :cypher="cypher" @selectAuthor="(id) => { stateAuthorPapersStat.show(id); statePaperList.show(id) }" />
 </template>
