@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { type ECElementEvent } from 'echarts/core'
 import { type Record } from 'neo4j-driver'
 import BarLabelRotation from './echarts/BarLabelRotation.vue'
+import { statePaperList } from './state'
 
 const props = defineProps<{ papers: Record[], maxyear: number, minyear: number }>()
 
@@ -48,12 +50,18 @@ const year_data = computed(() => {
   }
   return year_gather
 })
+function year_click(e: ECElementEvent) {
+  console.log(e.dataIndex + props.minyear + 1)
+  console.log(["A", "B", "C", "N"][e.componentIndex])
+  statePaperList.show(undefined, e.dataIndex + props.minyear + 1, undefined, ["A", "B", "C", "N"][e.componentIndex])
+}
 </script>
 
 <template>
   <div class="wrapper">
     <BarLabelRotation :data="year_data"
-      :xAxis="Array.from({ length: (props.maxyear - props.minyear) }, (v, k) => k + props.minyear + 1)" />
+      :xAxis="Array.from({ length: (props.maxyear - props.minyear) }, (v, k) => k + props.minyear + 1)"
+      @click="year_click" />
   </div>
 </template>
 
