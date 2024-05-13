@@ -9,12 +9,9 @@ const props = defineProps<{ id: IdType, limit: number }>()
 const cyphers = computed(() => {
   const Cyphers: string[] = []
   Cyphers.push(`MATCH (p:Publication) WHERE id(p) = ${props.id} RETURN p`) // The first node
-  const GET_CIT = `MATCH (pc:Publication)-[c:CITE]->(p:Publication) WHERE id(p) = ${props.id}` // pc is citations
-  const GET_REF = `MATCH (pr:Publication)<-[r:CITE]-(p:Publication) WHERE id(p) = ${props.id}` // pr is references
-  const GET_CIT_CIT = `${GET_CIT} OPTIONAL MATCH (cc:Publication)-[:CITE]->(pc)` // citations' citations
-  const GET_REF_CIT = `${GET_REF} OPTIONAL MATCH (cc:Publication)-[:CITE]->(pr)` // references' citations
-  Cyphers.push(`${GET_CIT_CIT} WITH COUNT(cc) AS pcc, p, c, pc ORDER BY pcc LIMIT ${props.limit} RETURN p, c, pc`) // citations
-  Cyphers.push(`${GET_REF_CIT} WITH COUNT(cc) AS prc, p, r, pr ORDER BY prc LIMIT ${props.limit} RETURN p, r, pr`) // references
+  const GET_CR = `MATCH (pp:Publication)-[c:CITE]-(p:Publication) WHERE id(p) = ${props.id}` // pc is citations or references
+  const GET_CR_CIT = `${GET_CR} OPTIONAL MATCH (cc:Publication)-[:CITE]->(pp)` // citations' or references' citations
+  Cyphers.push(`${GET_CR_CIT} WITH COUNT(cc) AS cc, p, c, pp ORDER BY cc LIMIT ${props.limit} RETURN p, c, pp`) // citation nodes
   return Cyphers
 })
 </script>
