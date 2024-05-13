@@ -10,6 +10,5 @@ const props = defineProps<{ limit: number }>()
   <PaperAuthorsGraph
     v-else-if="neovisShow.type == ShowNeoVisType.AuthorByPaper"
     :id="neovisShow.id"
-    :limit="props.limit"
   />
 </template>
