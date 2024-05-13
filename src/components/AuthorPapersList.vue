@@ -33,7 +33,8 @@ type PaperContent = {
   title?: string,
   year?: number,
   journal?: string,
-  ccf?: string
+  ccf?: string,
+  url?: string
 }
 const content = computed(() => {
   let texts: PaperContent[] = []
@@ -43,6 +44,8 @@ const content = computed(() => {
     if (p && p.properties) {
       if (p.properties.title) data.title = p.properties.title
       if (p.properties.year) data.year = Math.max(p.properties.year.low, p.properties.year.high)
+      if (p.properties.doi) data.url = 'https://doi.org/' + p.properties.doi
+      else if (p.properties.paperId) data.url = 'https://www.semanticscholar.org/paper/' + p.properties.paperId
     }
     const j = paper.get('j')
     if (j && j.properties) {
@@ -68,9 +71,11 @@ const content = computed(() => {
 <template>
   <div v-if="error">Oops! Error encountered: {{ error }}</div>
   <div v-else-if="papers">
-    <div v-for="(item, index) in content" :key="index">{{ item.title }},
-      <span v-if="item.journal">{{ item.journal }}</span>
-      <span v-else>unknown journal</span>, {{ item.year }}
+    <div v-for="(item, index) in content" :key="index">
+      <a v-if="item.url" :href="item.url">{{ item.title }}</a>
+      <span v-else>{{ item.title }}</span>
+      <span v-if="item.journal">, {{ item.journal }}</span>
+      <span v-else>, unknown journal</span>, {{ item.year }}
       <span v-if="item.ccf">, CCF {{ item.ccf }}</span>
     </div>
   </div>
