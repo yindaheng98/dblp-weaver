@@ -8,10 +8,12 @@ const props = defineProps<{ id: IdType }>()
 
 const cypher = computed(() => {
   return `
-  MATCH (p1:Publication) WHERE id(p1) = ${props.id}
-  MATCH (p2:Publication)-[r1:CITE]->(p1)
-  MATCH (p3:Publication)<-[r2:CITE]-(p1)
-  RETURN p1,r1,p2,r2,p3`
+  MATCH (p:Publication) WHERE id(p) = ${props.id}
+  OPTIONAL MATCH cit=(pc:Publication)-[:CITE]->(p)
+  OPTIONAL MATCH ref=(pr:Publication)<-[:CITE]-(p)
+  OPTIONAL MATCH cr=(pc)-[:CITE]->(pr)
+  OPTIONAL MATCH rc=(pr)-[:CITE]->(pc)
+  RETURN p, cit, ref, cr, rc`
 })
 </script>
 
