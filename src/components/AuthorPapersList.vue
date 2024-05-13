@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import neo4j from 'neo4j-driver'
 import { type Record } from 'neo4j-driver'
 import { type IdType } from 'vis-network'
@@ -28,14 +28,44 @@ watch(
   },
   { immediate: true }
 )
+type PaperContent = {
+  title?: string,
+  year?: number,
+  journal?: string,
+  ccf?: string
+}
+const content = computed(() => {
+  let texts: PaperContent[] = []
+  for (let paper of papers.value) {
+    const data: PaperContent = {}
+    const p = paper.get('p')
+    if (p && p.properties) {
+      if (p.properties.title) data.title = p.properties.title
+      if (p.properties.year) data.year = Math.max(p.properties.year.low, p.properties.year.high)
+    }
+    const j = paper.get('j')
+    if (j && j.properties) {
+      if (j.properties.dblp_name) data.journal = j.properties.dblp_name
+      if (j.properties.ccf) data.ccf = j.properties.ccf
+    }
+    texts.push(data)
+  }
+  return texts.sort((a, b) => {
+    if (!a.year) return 1
+    if (!b.year) return -1
+    return b.year - a.year
+  })
+})
 </script>
 
 <template>
   <div v-if="error">Oops! Error encountered: {{ error }}</div>
   <div v-else-if="papers">
-    {{ id }}
-    {{ filter }}
-    {{ papers }}
+    <div v-for="(item, index) in content" :key="index">{{ item.title }},
+      <span v-if="item.journal">{{ item.journal }}</span>
+      <span v-else>unknown journal</span>, {{ item.year }}
+      <span v-if="item.ccf">, CCF {{ item.ccf }}</span>
+    </div>
   </div>
 </template>
 
