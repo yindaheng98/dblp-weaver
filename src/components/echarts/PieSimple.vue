@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { use } from 'echarts/core'
+import { use, type ECElementEvent } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
 import { PieChart } from 'echarts/charts'
 import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components'
@@ -7,6 +7,9 @@ import VChart, { THEME_KEY } from 'vue-echarts'
 import { computed, provide } from 'vue'
 
 const props = defineProps<{ data: { value: number; name: string }[]; name: string }>()
+const emit = defineEmits<{
+  (e: 'click', id: ECElementEvent): void
+}>()
 
 use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, LegendComponent])
 
@@ -39,7 +42,7 @@ const option = computed(() => {
 </script>
 
 <template>
-  <v-chart class="chart" :option="option" />
+  <v-chart class="chart" :option="option" @click="(e) => emit('click', e)" />
 </template>
 
 <style scoped>

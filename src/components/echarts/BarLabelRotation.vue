@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import * as echarts from 'echarts/core'
+import { use, type ECElementEvent } from 'echarts/core'
 import { TooltipComponent, GridComponent, LegendComponent } from 'echarts/components'
 import { BarChart, type BarSeriesOption } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
@@ -7,8 +7,11 @@ import { computed } from 'vue'
 import VChart from 'vue-echarts'
 
 const props = defineProps<{ data: { data: number[]; name: string }[], xAxis: (string | number)[] }>()
+const emit = defineEmits<{
+  (e: 'click', id: ECElementEvent): void
+}>()
 
-echarts.use([TooltipComponent, GridComponent, LegendComponent, BarChart, CanvasRenderer])
+use([TooltipComponent, GridComponent, LegendComponent, BarChart, CanvasRenderer])
 
 const labelOption: NonNullable<BarSeriesOption['label']> = {
   show: true,
@@ -61,7 +64,7 @@ const option = computed(() => {
 </script>
 
 <template>
-  <v-chart class="chart" :option="option" />
+  <v-chart class="chart" :option="option" @click="(e) => emit('click', e)" />
 </template>
 
 <style scoped>
