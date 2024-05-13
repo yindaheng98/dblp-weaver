@@ -4,6 +4,7 @@ import neo4j from 'neo4j-driver'
 import { type Record } from 'neo4j-driver'
 import { type IdType } from 'vis-network'
 import { serverUrl, serverUser, serverPassword } from './connection'
+import { statePaperList } from './state'
 
 const props = defineProps<{ id: IdType, filter: { year?: number, journal?: string, ccf?: string } }>()
 const driver = neo4j.driver(serverUrl, neo4j.auth.basic(serverUser, serverPassword))
@@ -48,7 +49,10 @@ const content = computed(() => {
       if (j.properties.dblp_name) data.journal = j.properties.dblp_name
       if (j.properties.ccf) data.ccf = j.properties.ccf
     }
-    texts.push(data)
+    if (statePaperList.filter.ccf) {
+      if (statePaperList.filter.ccf == data.ccf) texts.push(data)
+      else if (statePaperList.filter.ccf == "N" && !data.ccf) texts.push(data)
+    } else texts.push(data)
   }
   return texts.sort((a, b) => {
     if (!a.year) return 1

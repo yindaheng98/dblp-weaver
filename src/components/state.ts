@@ -13,7 +13,6 @@ export const neovisShow = reactive<{
     type: ShowNeoVisType.None,
     id: 0,
     authorsbypaper(id: IdType) {
-        console.log(id)
         this.type = ShowNeoVisType.AuthorByPaper
         this.id = id
     }
@@ -38,14 +37,14 @@ export const statePaperList = reactive<{
     filter: {
         year?: number, journal?: string, ccf?: string
     }
-    show(id: IdType, year?: number, journal?: string, ccf?: string): void
+    show(id?: IdType, year?: number, journal?: string, ccf?: string): void
 }>({
     visible: false,
     id: 0,
     filter: {},
-    show(id: IdType, year?: number, journal?: string, ccf?: string) {
+    show(id?: IdType, year?: number, journal?: string, ccf?: string) {
         this.visible = true
-        this.id = id
+        if (id) this.id = id
         if (year) this.filter.year = year
         else this.filter.year = undefined
         if (journal) this.filter.journal = journal

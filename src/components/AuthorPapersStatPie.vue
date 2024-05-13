@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { type ECElementEvent } from 'echarts/core'
 import { type Record } from 'neo4j-driver'
 import PieSimple from './echarts/PieSimple.vue'
+import { statePaperList } from './state'
 
 const props = defineProps<{ papers: Record[] }>()
 const gather = computed(() => {
@@ -36,6 +38,9 @@ const ccf_data = computed(() => {
     { value: ccf_gather.N.length, name: 'No CCF' }
   ]
 })
+function ccf_click(e: ECElementEvent) {
+  statePaperList.show(undefined, undefined, undefined, ["A", "B", "C", "N"][e.dataIndex])
+}
 const journal_data = computed(() => {
   const ccf_gather = gather.value
   function count(gather: any[]) {
@@ -63,8 +68,8 @@ const journal_data = computed(() => {
 
 <template>
   <div class="wrapper">
-    <PieSimple :data="ccf_data" name="CCF Count" />
-    <PieSimple :data="journal_data" name="Journal count" />
+    <PieSimple :data="ccf_data" name="CCF Count" @click="ccf_click" />
+    <PieSimple :data="journal_data" name="Journal count" @click="console.log" />
   </div>
 </template>
 
