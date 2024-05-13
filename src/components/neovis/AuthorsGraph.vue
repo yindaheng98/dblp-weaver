@@ -5,6 +5,7 @@ import { type NumberOrInteger } from 'neovis.js'
 import * as Neo4jTypes from 'neo4j-driver'
 import { type IdType } from 'vis-network'
 import { serverUrl, serverUser, serverPassword } from '../connection'
+import { counters } from './state'
 
 const props = defineProps({
   cypher: { type: String, required: true }
@@ -15,6 +16,7 @@ const emit = defineEmits<{
 const viz = ref()
 
 onMounted(() => {
+  viz.value.id = `authors-graph-${counters.AuthorsGraph++}`
   let neoviz = new NeoVis({
     containerId: viz.value.id,
     neo4j: {
@@ -63,7 +65,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="viz" id="viz" class="viz">Loading...</div>
+  <div ref="viz" class="viz">Loading...</div>
 </template>
 
 <style scoped>
