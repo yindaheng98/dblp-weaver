@@ -7,9 +7,7 @@ import { type IdType } from 'vis-network'
 import { serverUrl, serverUser, serverPassword } from '../connection'
 import { counters } from './state'
 
-const props = defineProps({
-  cypher: { type: String, required: true }
-})
+const props = defineProps<{ cyphers: string[] }>()
 const emit = defineEmits<{
   (e: 'selectPaper', id: IdType): void
 }>()
@@ -58,9 +56,12 @@ onMounted(() => {
         title: 'weight'
       }
     },
-    initialCypher: props.cypher
+    initialCypher: props.cyphers[0]
   })
   neoviz.render()
+  if (props.cyphers.length > 1)
+    for (let cypher of props.cyphers.slice(1))
+      neoviz.updateWithCypher(cypher)
 })
 </script>
 

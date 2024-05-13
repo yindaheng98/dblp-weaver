@@ -2,7 +2,7 @@
 import GraphPanel from './components/GraphPanel.vue'
 import ContentPanel from './components/ContentPanel.vue'
 import { stateGraphPanel } from './components/state'
-stateGraphPanel.showPaperAuthorsGraph(88) // Only for test
+stateGraphPanel.showPaperCitesGraph(1) // Only for test
 </script>
 
 <template>
