@@ -51,8 +51,6 @@ const year_data = computed(() => {
   return year_gather
 })
 function year_click(e: ECElementEvent) {
-  console.log(e.dataIndex + props.minyear + 1)
-  console.log(["A", "B", "C", "N"][e.componentIndex])
   statePaperList.show(undefined, e.dataIndex + props.minyear + 1, undefined, ["A", "B", "C", "N"][e.componentIndex])
 }
 </script>
