@@ -47,8 +47,9 @@ onMounted(() => {
               'MATCH (p:Publication)<-[:CITE]-(a:Publication) WHERE id(p) = $id RETURN COUNT(a)',
             label:
               `
-              MATCH (a:Person)-[:WRITE]->(p:Publication) WHERE id(p) = $id
-              MATCH (a)-[:WRITE]->(pp:Publication) WITH p, a, COUNT(pp) AS c ORDER BY c LIMIT 1
+              MATCH (p:Publication) WHERE id(p) = $id
+              OPTIONAL MATCH (a:Person)-[:WRITE]->(p)
+              OPTIONAL MATCH (a)-[:WRITE]->(pp:Publication) WITH p, a, COUNT(pp) AS c ORDER BY c LIMIT 1
               RETURN a.name + ", " + p.year`,
           }
         }
