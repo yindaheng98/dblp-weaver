@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import GraphPanel from './components/GraphPanel.vue'
 import ContentPanel from './components/ContentPanel.vue'
-import { neovisShow } from './components/state'
-neovisShow.authorsbypaper(88) // Only for test
+import { stateGraphPanel } from './components/state'
+stateGraphPanel.showPaperAuthorsGraph(88) // Only for test
 </script>
 
 <template>

@@ -3,17 +3,17 @@ import { type IdType } from 'vis-network'
 
 export const enum ShowNeoVisType {
     None = 1,
-    AuthorByPaper,
+    PaperAuthorsGraph,
 }
-export const neovisShow = reactive<{
+export const stateGraphPanel = reactive<{
     type: ShowNeoVisType,
     id: IdType,
-    authorsbypaper(id: IdType): void
+    showPaperAuthorsGraph(id: IdType): void
 }>({
     type: ShowNeoVisType.None,
     id: 0,
-    authorsbypaper(id: IdType) {
-        this.type = ShowNeoVisType.AuthorByPaper
+    showPaperAuthorsGraph(id: IdType) {
+        this.type = ShowNeoVisType.PaperAuthorsGraph
         this.id = id
     }
 })
